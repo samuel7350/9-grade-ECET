@@ -25,9 +25,25 @@ void Inverse()
 {
 
 }
-void MatrixMultiplication()
+void MatrixMultiplication() //i need the code for the conversion of the message 
+                            //in order to run the multiplication as many times needed
 {
-
+    int i, j, k, count = 0, total = 0;       // i = rows, j = columns
+	
+	for (i = 0; i < 3; i++)
+	{
+		for (j = 0; j < 1; j++)
+		{
+			for (k = 0; k < 3; k++)
+				total += K[i][k] * W[k][j];  //mulitplies Key by matrix W
+			cout << setw(4) << total << " "; //total displays the product in 3x1 matrix,
+			++count;						 //although its not really a matrix yet.
+			cout << endl;
+			total = 0;
+			
+			
+		}
+	}
 }
 int key[3][3] =
 {
