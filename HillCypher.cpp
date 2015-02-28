@@ -56,13 +56,23 @@ void Decrypt()
     cout << "The Filename you Entered is: " << filename << endl;
     ifstream EncryptedMessage;
     EncryptedMessage.open("filename");
-        while(!EncryptedMessage.eof())
+        while(!EncryptedMessage.eof())                  //Makes sure all lines are scanned
         {
-            getline(EncryptedMessage, TempEncrypt);
-            cout << TempEncrypt;
+            getline(EncryptedMessage, TempEncrypt);     //Fetches the Lines of the Message file
+            cout << TempEncrypt;                        //Prints the Message
+            cout << "\n" << "is This Your Message? (Y/N)";
+            cin >> again;
+            if (again == 'y' || again == 'Y')
+                break;
+            else
+                {
+                EncryptedMessage.open("filename");
+                continue;
+                }
         }
         EncryptedMessage.close();
         system("Pause");
+        
 }
 
 void Encrypt()
