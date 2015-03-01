@@ -6,13 +6,42 @@
 #include "stdlib.h"
 #include <vector>
 #include <string>
+#include <ctime>
 using namespace std;
+/*
+**********************************************************************************************************************
+*/
+char choose;
+
+char decrypt;
+
+char y = 'i';
+
+int ctr = 8;
+
 char again;
+
 int sizeofarr = 9;
+
 int counter = 0;
+
 string message = "";
+
 string filename = "";
+
 string TempEncrypt = "";
+
+static const char randstring[] = "0123456789" "ABCDEFGHIJKLMNOPQRSTUVWXYZ" "abcdefghijklmnopqrstuvwxyz";
+
+int str = sizeof(randstring) - 1;
+/*
+**********************************************************************************************************************
+*/
+char genrand()  // Random string generator function.
+{
+    return randstring[rand() % str];
+}
+
 void CoFactor()
 {
 
@@ -25,7 +54,7 @@ void Inverse()
 {
 
 }
-/*
+
 void MatrixMultiplication() //i need the code for the conversion of the message
                             //in order to run the multiplication as many times needed
 {
@@ -46,7 +75,7 @@ void MatrixMultiplication() //i need the code for the conversion of the message
 		}
 	}
 }
-*/
+
 
 int key[3][3] =
 {
@@ -101,40 +130,61 @@ void Decrypt()
 
 void Encrypt()
 {
-    ofstream Stuff ("Encrypted.txt");			//WHATEVER NEEDS TO GO IN THE TXT REPLACE COUT WITH STUFF
+	srand(time(0));
+	string randfilename;
+	while(ctr > 0)
+	{
+	randfilename+= genrand();					//Generates Random 8 Element String(For Filename)
+	--ctr;
+	}
+	randfilename+= ".txt";						//Adds .txt to end of string
+	remove("Encrypted.txt");				//Deletes the old file used last time
+    ofstream Stuff;							//WHATEVER NEEDS TO GO IN THE TXT REPLACE COUT WITH STUFF
+	Stuff.open(randfilename.c_str(), ios::app);
     srand((unsigned)time(NULL));			//Like Stuff << Key[3][3];
         while(sizeofarr > 0)
         {
-            key[3][3] = rand() % 27;                    //Generates a random number from 0 to 26
-            cout << key[3][3] << " ";                   //Outputs the value with a space after it (For Debugging)
+            key[3][3] = rand() % 10;                    //Generates a random number from 0 to 26
+            cout << setw(2) << key[3][3] << " ";        //Outputs the value with a space after it (For Debugging)
+			Stuff << setw(2) << key[3][3] << " ";
             counter++;                                  //Counter +1
             if ( counter % 3 == 0)                      //When the counter reaches 3
+			{
                 cout << endl;                           //Go to the next line (For Debugging)
+				Stuff << endl;
+			}
             sizeofarr = sizeofarr - 1;                  //sizeofarr - 1 (starts at 9)
         }
             cout << "Please enter the message: ";
-            cin >> message;				//Asks for the message they want to encrypt
+            getline(cin, message);								//Asks for the message they want to encrypt
             cout << "Your Message is: \n" << message << endl;
-            cout << "Do you Wish to Encrypt this? (Y to continue)";
-            cin >> again;
-            if (again != 'y' || again != 'Y')
-                Decrypt();
+			cout << "This is your Encrypted FileName! Please Keep it for Decryption!\n";
+			cout << randfilename << endl;
 }
 
 int main()
 {
     while(true)
     {
-        Encrypt();
-        cout << "Would you Like to Decrypt a Message? (Y/N)";
-        cin >> again;
-        if (again == 'y' || again == 'Y')
-            Decrypt();
-        else
-        {
-            cout << string(20, '\n');
-            cout << "Thank you for Encrypting with us.\nYour Encrypted File is is the same directory as this program :)";
-            return 0;
-        }
+		cout << "What would you like to do?\nD= Decrypt\nE = Encrypt\n";
+		cin >> choose;
+		if (choose == 'e' || choose == 'E')
+		{
+			if(y == 'i')
+				Encrypt();
+			cout << "Would You like to Decrypt?(Y/N)\n";
+			cin >> decrypt;
+			if (decrypt == 'y' || decrypt == 'Y')
+			{
+				Decrypt();
+				y = 'v';
+			}
+			else
+				return 0;
+		}
+		else if (choose == 'd' || choose == 'D')
+		{
+			Decrypt();
+		}
     }
 }
