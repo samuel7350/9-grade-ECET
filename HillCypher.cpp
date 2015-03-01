@@ -25,11 +25,11 @@ void Inverse()
 {
 
 }
-void MatrixMultiplication() //i need the code for the conversion of the message 
+void MatrixMultiplication() //i need the code for the conversion of the message
                             //in order to run the multiplication as many times needed
 {
     int i, j, k, count = 0, total = 0;       // i = rows, j = columns
-	
+
 	for (i = 0; i < 3; i++)
 	{
 		for (j = 0; j < 1; j++)
@@ -40,11 +40,12 @@ void MatrixMultiplication() //i need the code for the conversion of the message
 			++count;						 //although its not really a matrix yet.
 			cout << endl;
 			total = 0;
-			
-			
+
+
 		}
 	}
 }
+
 int key[3][3] =
 {
 {0,0,0},
@@ -80,20 +81,22 @@ void Decrypt()
             cin >> again;
             if (again == 'y' || again == 'Y')
                 break;
-            else
+            else					//If its not the message, they can do something else
                 {
-                EncryptedMessage.open("filename");
+                cin >> filename;
+                EncryptedMessage.open("filename");	//Not finalized yet
                 continue;
                 }
+
         }
         EncryptedMessage.close();
         system("Pause");
-        
 }
 
 void Encrypt()
 {
-    srand((unsigned)time(NULL));
+    ofstream Stuff ("Encrypted.txt");			//WHATEVER NEEDS TO GO IN THE TXT REPLACE COUT WITH STUFF
+    srand((unsigned)time(NULL));			//Like Stuff << Key[3][3];
         while(sizeofarr > 0)
         {
             key[3][3] = rand() % 27;                    //Generates a random number from 0 to 26
@@ -104,7 +107,7 @@ void Encrypt()
             sizeofarr = sizeofarr - 1;                  //sizeofarr - 1 (starts at 9)
         }
             cout << "Please enter the message: ";
-            cin >> message;
+            cin >> message;				//Asks for the message they want to encrypt
             cout << "Your Message is: \n" << message << endl;
             cout << "Do you Wish to Encrypt this? (Y to continue)";
             cin >> again;
