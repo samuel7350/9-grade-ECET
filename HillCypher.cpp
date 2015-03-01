@@ -144,7 +144,7 @@ void Encrypt()
     srand((unsigned)time(NULL));			//Like Stuff << Key[3][3];
         while(sizeofarr > 0)
         {
-            key[3][3] = rand() % 2;                    //Generates a random number from 0 to 26
+            key[3][3] = rand() % 10;                    //Generates a random number from 0 to 9
             cout << setw(2) << key[3][3] << " ";        //Outputs the value with a space after it (For Debugging)
 			Stuff << setw(2) << key[3][3] << " ";
             counter++;                                  //Counter +1
