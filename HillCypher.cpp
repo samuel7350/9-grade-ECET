@@ -54,7 +54,7 @@ void Inverse()
 {
 
 }
-
+/*
 void MatrixMultiplication() //i need the code for the conversion of the message
                             //in order to run the multiplication as many times needed
 {
@@ -75,7 +75,7 @@ void MatrixMultiplication() //i need the code for the conversion of the message
 		}
 	}
 }
-
+*/
 
 int key[3][3] =
 {
@@ -103,7 +103,7 @@ void Decrypt()
     cin >> filename;
     cout << "The Filename you Entered is: " << filename << endl;
     ifstream EncryptedMessage;
-    EncryptedMessage.open("hello.txt");
+    EncryptedMessage.open(filename.c_str());
         while(!EncryptedMessage.eof())                  //Makes sure all lines are scanned
         {
             getline(EncryptedMessage, TempEncrypt);     //Fetches the Lines of the Message file
@@ -144,7 +144,7 @@ void Encrypt()
     srand((unsigned)time(NULL));			//Like Stuff << Key[3][3];
         while(sizeofarr > 0)
         {
-            key[3][3] = rand() % 10;                    //Generates a random number from 0 to 26
+            key[3][3] = rand() % 2;                    //Generates a random number from 0 to 26
             cout << setw(2) << key[3][3] << " ";        //Outputs the value with a space after it (For Debugging)
 			Stuff << setw(2) << key[3][3] << " ";
             counter++;                                  //Counter +1
@@ -157,9 +157,19 @@ void Encrypt()
         }
             cout << "Please enter the message: ";
             getline(cin, message);								//Asks for the message they want to encrypt
-            cout << "Your Message is: \n" << message << endl;
-			cout << "This is your Encrypted FileName! Please Keep it for Decryption!\n";
-			cout << randfilename << endl;
+			if(!message.empty())
+			{
+				cout << "Your Message is: \n" << message << endl;
+				cout << "This is your Encrypted FileName! Please Keep it for Decryption!\n";
+				cout << randfilename << endl;
+			}
+			else
+			{
+				getline(cin, message);
+				cout << "Your Message is: \n" << message << endl << endl;
+				cout << "This is your Encrypted FileName! Please Keep it for Decryption!\n";
+				cout << randfilename << endl << endl;;
+			}
 }
 
 int main()
