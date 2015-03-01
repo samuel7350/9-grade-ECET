@@ -77,7 +77,8 @@ void Decrypt()
         {
             getline(EncryptedMessage, TempEncrypt);     //Fetches the Lines of the Message file
             cout << TempEncrypt;                        //Prints the Message
-            cout << "\n" << "is This Your Message? (Y/N)";
+        }
+        /*    cout << "\n" << "is This Your Message? (Y/N)";	//Checks validation if message
             cin >> again;
             if (again == 'y' || again == 'Y')
                 break;
@@ -87,9 +88,12 @@ void Decrypt()
                 EncryptedMessage.open("filename");	//Not finalized yet
                 continue;
                 }
-
-        }
-        EncryptedMessage.close();
+        */
+        string temp2 = TempEncrypt.substr(0, 16);
+		cout << temp2 << endl;					//For Debugging (Should Show the Key (9 Numbers))
+		TempEncrypt.erase(TempEncrypt.begin(), TempEncrypt.begin()+16);	//Erases the key after it is transfered to temp2
+		
+        EncryptedMessage.close();				//Closes the file
         system("Pause");
 }
 
