@@ -25,6 +25,7 @@ void Inverse()
 {
 
 }
+/*
 void MatrixMultiplication() //i need the code for the conversion of the message
                             //in order to run the multiplication as many times needed
 {
@@ -45,6 +46,7 @@ void MatrixMultiplication() //i need the code for the conversion of the message
 		}
 	}
 }
+*/
 
 int key[3][3] =
 {
@@ -72,7 +74,7 @@ void Decrypt()
     cin >> filename;
     cout << "The Filename you Entered is: " << filename << endl;
     ifstream EncryptedMessage;
-    EncryptedMessage.open("filename");
+    EncryptedMessage.open("hello.txt");
         while(!EncryptedMessage.eof())                  //Makes sure all lines are scanned
         {
             getline(EncryptedMessage, TempEncrypt);     //Fetches the Lines of the Message file
@@ -90,8 +92,9 @@ void Decrypt()
                 }
         */
         string temp2 = TempEncrypt.substr(0, 16);
-	cout << temp2 << endl;					//For Debugging (Should Show the Key (9 Numbers))
-	TempEncrypt.erase(TempEncrypt.begin(), TempEncrypt.begin()+16);	//Erases the key after it is transfered to temp2
+		cout << temp2 << endl;					//For Debugging (Should Show the Key (9 Numbers))
+		TempEncrypt.erase(TempEncrypt.begin(), TempEncrypt.begin()+16);	//Erases the key after it is transfered to temp2
+		cout << TempEncrypt << endl;			//Whats left in the file (For Debugging)
         EncryptedMessage.close();				//Closes the file
         system("Pause");
 }
