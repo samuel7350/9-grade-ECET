@@ -90,9 +90,8 @@ void Decrypt()
                 }
         */
         string temp2 = TempEncrypt.substr(0, 16);
-		cout << temp2 << endl;					//For Debugging (Should Show the Key (9 Numbers))
-		TempEncrypt.erase(TempEncrypt.begin(), TempEncrypt.begin()+16);	//Erases the key after it is transfered to temp2
-		
+	cout << temp2 << endl;					//For Debugging (Should Show the Key (9 Numbers))
+	TempEncrypt.erase(TempEncrypt.begin(), TempEncrypt.begin()+16);	//Erases the key after it is transfered to temp2
         EncryptedMessage.close();				//Closes the file
         system("Pause");
 }
