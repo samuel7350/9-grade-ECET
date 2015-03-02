@@ -17,6 +17,13 @@ char decrypt;
 
 char y = 'i';
 
+int key[3][3] =
+{
+{0,0,0},
+{0,0,0},
+{0,0,0}
+};
+
 int ctr = 8;
 
 char again;
@@ -48,7 +55,25 @@ void CoFactor()
 }
 void Determinant()
 {
-
+    int total2 = 1;
+    int total3 = 1;
+    for(int p = 0; p < 3; p++)
+    {
+        for(int q = 0; q < 3; q++)
+        {
+            total2 *= key[p][q];
+        }
+    }
+    cout << total2 << endl;
+    for(int r = 2; r >=0; --r)
+    {
+        for(int s = 2; s >=0; --s)
+        {
+            total3 *= key[r][s];
+        }
+    }
+    cout << total3 << endl;
+    cout << total2 - total3 << endl;
 }
 void Inverse()
 {
@@ -76,13 +101,6 @@ void MatrixMultiplication() //i need the code for the conversion of the message
 	}
 }
 */
-
-int key[3][3] =
-{
-{0,0,0},
-{0,0,0},
-{0,0,0}
-};
 
 template <typename T>
 ostream & operator << (ostream & out, const vector <T> & v)
@@ -155,6 +173,7 @@ void Encrypt()
 			}
             sizeofarr = sizeofarr - 1;                  //sizeofarr - 1 (starts at 9)
         }
+        Determinant();
             cout << "Please enter the message: ";
             getline(cin, message);								//Asks for the message they want to encrypt
 			if(!message.empty())
