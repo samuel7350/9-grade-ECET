@@ -57,21 +57,9 @@ void Determinant()
 {
     int total2 = 1;
     int total3 = 1;
-    for(int p = 0; p < 3; p++)
-    {
-        for(int q = 0; q < 3; q++)
-        {
-            total2 *= key[p][q];
-        }
-    }
+    total2 = key[0][0] * key[1][1] * key[2][2];
+    total3 = key[0][2] * key[1][1] * key[2][0];
     cout << total2 << endl;
-    for(int r = 2; r >=0; --r)
-    {
-        for(int s = 2; s >=0; --s)
-        {
-            total3 *= key[r][s];
-        }
-    }
     cout << total3 << endl;
     cout << total2 - total3 << endl;
 }
