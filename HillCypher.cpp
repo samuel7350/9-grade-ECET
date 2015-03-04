@@ -26,6 +26,8 @@ int key[3][3] =
 
 int ctr = 8;
 
+int b[3][3];
+
 char again;
 
 int sizeofarr = 9;
@@ -48,7 +50,16 @@ char genrand()  // Random string generator function.
 {
     return randstring[rand() % str];
 }
-
+void Transpose()
+{
+	for(i=0;i<3;i++) 
+	{ 
+		for(j=0;j<3;j++) 
+		{ 
+			b[i][j] = key[j][i]; 
+		} 
+	}
+}
 void CoFactor()
 {
 
