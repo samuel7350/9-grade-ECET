@@ -103,10 +103,12 @@ void Message()
 		myVector.push_back(static_cast<int>(y));
 	}
 			cout << "The vector is: " << endl;
-			for (int i = 0; i < myVector.size(); i++){	//outputs the vector and the stuff inside
+			
+		/*	for (int i = 0; i < myVector.size(); i++){	//outputs the vector and the stuff inside
 				cout << myVector[i] << " " << endl;
 			}
-	
+		*/
+			cout << myVector << endl;			//This works too cause of the template
 	while (myVector.size() % 3 != 0){	
 		myVector.push_back(32);   
 	}
