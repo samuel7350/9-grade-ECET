@@ -78,6 +78,25 @@ void Inverse()
 {
 
 }
+void Message()
+{
+	vector<int> myVector;		
+	string message;
+	getline(cin, message);		
+	for (int count = 0; count < message.length(); count++)   //takes each character of the message
+	{
+		char y = message.at(count);
+		myVector.push_back(static_cast<int>(y));
+	}
+			cout << "The vector is: " << endl;
+			for (int i = 0; i < myVector.size(); i++){	//outputs the vector and the stuff inside
+				cout << myVector[i] << " " << endl;
+			}
+	
+	while (myVector.size() % 3 != 0){	
+		myVector.push_back(32);   
+	}
+}
 /*
 void MatrixMultiplication() //i need the code for the conversion of the message
                             //in order to run the multiplication as many times needed
