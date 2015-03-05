@@ -13,14 +13,14 @@ using namespace std;
 */
 
 template <typename T>
-ostream & operator << (ostream & out, const vector <T> & v)
+ostream & operator << (ostream &out, const vector<T> &v)
 {
 size_t last = v.size() - 1;
-for(size_t i = 0; i < v.size(); ++i)
+for(size_t i = 0; i < v.size(); i++)
 {
 out << v[i];
 if (i != last)
-out << " , ";
+out << " ";				//Use this to change what is between the Vectors (between the double quotes) Right now its 1 space between each value
 }
 return out;
 }
