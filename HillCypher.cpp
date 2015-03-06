@@ -26,32 +26,21 @@ return out;
 }
 
 char choose;
-
 char decrypt;
-
 char y = 'i';
-
 int key[3][3] =
 {
 {0,0,0},
 {0,0,0},
 {0,0,0}
 };
-
 int ctr = 8;
-
 int b[3][3];
-
 char again;
-
 int sizeofarr = 9;
-
 int counter = 0;
-
 string message = "";
-
 string filename = "";
-
 string TempEncrypt = "";
 
 static const char randstring[] = "0123456789" "ABCDEFGHIJKLMNOPQRSTUVWXYZ" "abcdefghijklmnopqrstuvwxyz";
@@ -66,9 +55,9 @@ char genrand()  // Random string generator function.
 }
 void Transpose()
 {
-	for(i=0;i<3;i++) 
+	for(int i=0;i<3;i++) 
 	{ 
-		for(j=0;j<3;j++) 
+		for(int j=0;j<3;j++) 
 		{ 
 			b[i][j] = key[j][i]; 
 		} 
@@ -138,7 +127,10 @@ void MatrixMultiplication() //i need the code for the conversion of the message
 
 void Decrypt()
 {
-    cout << "Please enter the filename of the encrypted message: ";
+
+	cout << "\nThis is a list of all txt files in the directory\n";
+	system("dir *.txt /a-d /b");
+    cout << "\nPlease enter the filename of the encrypted message: ";
     cin >> filename;
     cout << "The Filename you Entered is: " << filename << endl;
     ifstream EncryptedMessage;
