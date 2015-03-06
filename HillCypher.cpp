@@ -42,7 +42,7 @@ int counter = 0;
 string message = "";
 string filename = "";
 string TempEncrypt = "";
-
+string randfilename = "";
 static const char randstring[] = "0123456789" "ABCDEFGHIJKLMNOPQRSTUVWXYZ" "abcdefghijklmnopqrstuvwxyz";
 
 int str = sizeof(randstring) - 1;
@@ -85,7 +85,20 @@ void Message()
 {
 	vector<int> myVector;		
 	string message;
-	getline(cin, message);		
+	getline(cin, message);								//Asks for the message they want to encrypt
+				if(!message.empty())
+				{
+					cout << "Your Message is: \n" << message << endl;
+					cout << "This is your Encrypted FileName! Please Keep it for Decryption!\n";
+					cout << randfilename << endl;
+				}
+				else
+				{
+					getline(cin, message);
+					cout << "Your Message is: \n" << message << endl << endl;
+					cout << "This is your Encrypted FileName! Please Keep it for Decryption!\n";
+					cout << randfilename << endl << endl;;
+				}	
 	for (int count = 0; count < message.length(); count++)   //takes each character of the message
 	{
 		char y = message.at(count);
@@ -162,7 +175,6 @@ void Decrypt()
 void Encrypt()
 {
 	srand(time(0));
-	string randfilename;
 	while(ctr > 0)
 	{
 	randfilename+= genrand();					//Generates Random 8 Element String(For Filename)
@@ -188,20 +200,7 @@ void Encrypt()
         }
         Determinant();
             cout << "Please enter the message: ";
-            getline(cin, message);								//Asks for the message they want to encrypt
-			if(!message.empty())
-			{
-				cout << "Your Message is: \n" << message << endl;
-				cout << "This is your Encrypted FileName! Please Keep it for Decryption!\n";
-				cout << randfilename << endl;
-			}
-			else
-			{
-				getline(cin, message);
-				cout << "Your Message is: \n" << message << endl << endl;
-				cout << "This is your Encrypted FileName! Please Keep it for Decryption!\n";
-				cout << randfilename << endl << endl;;
-			}
+            
 }
 
 int main()
