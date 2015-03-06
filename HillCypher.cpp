@@ -38,11 +38,13 @@ int ctr = 8;
 int b[3][3];
 char again;
 int sizeofarr = 9;
+int det;
 int counter = 0;
 string message = "";
 string filename = "";
 string TempEncrypt = "";
 string randfilename = "";
+vector<int> myVector;
 static const char randstring[] = "0123456789" "ABCDEFGHIJKLMNOPQRSTUVWXYZ" "abcdefghijklmnopqrstuvwxyz";
 
 int str = sizeof(randstring) - 1;
@@ -69,6 +71,7 @@ void CoFactor()
 }
 void Determinant()
 {
+	/*
     int total2 = 1;
     int total3 = 1;
     total2 = key[0][0] * key[1][1] * key[2][2];
@@ -76,29 +79,73 @@ void Determinant()
     cout << total2 << endl;
     cout << total3 << endl;
     cout << total2 - total3 << endl;
+	*/
+	det = 0;
+	for(int i=0;i<3;i++)
+	 {
+	  det = det + (key[0][i] * (key [1][(i + 1) % 3] * key[2][(i + 2) % 3] - key[1][(i + 2) % 3] * key[2][(i + 1) % 3]));
+	  cout << det << endl;
+	 }
 }
 void Inverse()
 {
-
+	/*
+        temp[0] = key[1][1] * key[2][2] - key[1][2] * key[2][1];
+        temp[1] = key[1][2] * key[2][0] - key[1][0] * key[2][2];
+        temp[2] = key[1][0] * key[2][1] - key[1][1] * key[2][0];
+        temp[3] = key[0][2] * key[2][1] - key[0][1] * key[2][2];
+        temp[4] = key[0][0] * key[2][2] - key[0][2] * key[2][0];
+        temp[5] = key[0][1] * key[2][0] - key[0][0] * key[2][1];
+        temp[6] = key[0][1] * key[1][2] - key[0][2] * key[1][1];
+        temp[7] = key[0][2] * key[1][0] - key[0][0] * key[1][2];
+        temp[8] = key[0][0] * key[1][1] - key[0][1] * key[1][0];
+		for(int i = 0; i < 9; i++)
+				cout << temp[i] << endl;
+		int k = 0;
+		int g = 0;
+				for (int i = 0; i < 3; i++)
+					{
+						inverse[k+0][g+0] = temp[i+0] / 3;
+						cout << inverse[k][g];
+						system("pause");
+						inverse[k+1][g+1] = temp[i+3] / 3;
+						inverse[k+2][g+2] = temp[i+6] / 3;
+						k = k + 3;
+						g = g + 3;
+					}
+				for(int i = 0; i < 3; i++)
+				{
+					for(int j; j < 3; j++)
+					{
+						cout << inverse[i][j] << "  ";
+					}
+					cout << endl;
+				}
+				cout << endl;
+				system("Pause");
+				*/
+	//Not werking so far....:(
 }
 void Message()
 {
-	vector<int> myVector;		
+	vector<int> myVector;
 	string message;
+	cout << "Please Enter the Message to Be Decrypted. \n";
 	getline(cin, message);								//Asks for the message they want to encrypt
+	cout << randfilename << endl;
 				if(!message.empty())
 				{
-					cout << "Your Message is: \n" << message << endl;
+					cout << "Your Message is: \n" << message << endl << endl;
 					cout << "This is your Encrypted FileName! Please Keep it for Decryption!\n";
-					cout << randfilename << endl;
+					cout << randfilename << endl << endl;
 				}
 				else
 				{
 					getline(cin, message);
 					cout << "Your Message is: \n" << message << endl << endl;
 					cout << "This is your Encrypted FileName! Please Keep it for Decryption!\n";
-					cout << randfilename << endl << endl;;
-				}	
+					cout << randfilename << endl << endl;
+				}
 	for (int count = 0; count < message.length(); count++)   //takes each character of the message
 	{
 		char y = message.at(count);
@@ -115,28 +162,26 @@ void Message()
 		myVector.push_back(32);   
 	}
 }
-/*
+
 void MatrixMultiplication() //i need the code for the conversion of the message
                             //in order to run the multiplication as many times needed
 {
     int i, j, k, count = 0, total = 0;       // i = rows, j = columns
-
+	int W[3][1];
 	for (i = 0; i < 3; i++)
 	{
-		for (j = 0; j < 1; j++)
+
+		for (k = 0; k < 3; k++)
 		{
-			for (k = 0; k < 3; k++)
-				total += K[i][k] * W[k][j];  //mulitplies Key by matrix W
-			cout << setw(4) << total << " "; //total displays the product in 3x1 matrix,
-			++count;						 //although its not really a matrix yet.
-			cout << endl;
-			total = 0;
-
-
+			total += key[i][k] * W[k][1];  //mulitplies Key by matrix W
 		}
+		cout << setw(4) << total << " "; //total displays the product in 3x1 matrix,
+		++count;						 //although its not really a matrix yet.
+		cout << endl;
+		total = 0;
 	}
 }
-*/
+
 
 void Decrypt()
 {
@@ -171,63 +216,57 @@ void Decrypt()
         EncryptedMessage.close();				//Closes the file
         system("Pause");
 }
-
 void Encrypt()
 {
-	srand(time(0));
-	while(ctr > 0)
-	{
-	randfilename+= genrand();					//Generates Random 8 Element String(For Filename)
-	--ctr;
-	}
-	randfilename+= ".txt";						//Adds .txt to end of string
-	remove("Encrypted.txt");				//Deletes the old file used last time
-    ofstream Stuff;							//WHATEVER NEEDS TO GO IN THE TXT REPLACE COUT WITH STUFF
-	Stuff.open(randfilename.c_str(), ios::app);
-    srand((unsigned)time(NULL));			//Like Stuff << Key[3][3];
-        while(sizeofarr > 0)
-        {
-            key[3][3] = rand() % 10;                    //Generates a random number from 0 to 9
-            cout << setw(2) << key[3][3] << " ";        //Outputs the value with a space after it (For Debugging)
-			Stuff << setw(2) << key[3][3] << " ";
-            counter++;                                  //Counter +1
-            if ( counter % 3 == 0)                      //When the counter reaches 3
+		srand(time(0));
+		string randfilename;
+		while(ctr > 0)
+		{
+		randfilename+= genrand();					//Generates Random 8 Element String(For Filename)
+		--ctr;
+		}
+		randfilename+= ".txt";	                //Adds .txt to end of string
+		cout << randfilename << endl;
+		ofstream Stuff;							//WHATEVER NEEDS TO GO IN THE TXT REPLACE COUT WITH STUFF
+		Stuff.open(randfilename.c_str(), ios::app);
+		while(true)
+		{
+		for(int i=0; i<9; i++)
+		{
+			for(int j=0; j<9; j++)
 			{
-                cout << endl;                           //Go to the next line (For Debugging)
-				Stuff << endl;
+				int s;
+				s = rand() % 9 + 1;
+				key[i][j] = s;
 			}
-            sizeofarr = sizeofarr - 1;                  //sizeofarr - 1 (starts at 9)
-        }
-        Determinant();
-            cout << "Please enter the message: ";
-            
+		}
+		for(int i=0; i<3; i++)
+		{
+			for(int j=0; j<3; j++)
+			{
+				cout << key[i][j]  << "  ";
+				Stuff << key[i][j] << "  ";
+			}
+			cout << endl;
+			Stuff << endl;
+		}
+		Determinant();
+		system("pause");
+		cout << det << endl;
+		system("pause");
+		if(det != 0)
+			break;
+		else
+			continue;
+		}
+	//Inverse();							//Not Working.....YET
+	Message();
+	system("pause");
 }
-
 int main()
 {
-    while(true)
-    {
-		cout << "What would you like to do?\nD= Decrypt\nE = Encrypt\n";
-		cin >> choose;
-		if (choose == 'e' || choose == 'E')
-		{
-			if(y == 'i')
-				Encrypt();
-			cout << "Would You like to Decrypt?(Y/N)\n";
-			cin >> decrypt;
-			if (decrypt == 'y' || decrypt == 'Y')
-			{
-				Decrypt();
-				y = 'v';
-			}
-			else
-				return 0;
-		}
-		else if (choose == 'd' || choose == 'D')
-		{
-			Decrypt();
-		}
-    }
+    Encrypt();
+	Decrypt();
 }
 
 
