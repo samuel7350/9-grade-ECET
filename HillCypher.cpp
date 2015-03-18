@@ -185,9 +185,19 @@ void MatrixMultiplication() //i need the code for the conversion of the message
 
 void Decrypt()
 {
-
+	char delete;
 	cout << "\nThis is a list of all txt files in the directory\n";
 	system("dir *.txt /a-d /b");
+	cout << "Would you like to delete all files in the current folder?"
+	cin >> delete;
+	if(delete =='y' || delete == 'Y')
+	{
+		string c = "del /Q ";
+		string p = "*.txt";
+		system(c.append(p).c_str());
+	}
+	//^^^ Havent tried it out, should work
+	//made c and p string because you need strings for append
     cout << "\nPlease enter the filename of the encrypted message: ";
     cin >> filename;
     cout << "The Filename you Entered is: " << filename << endl;
