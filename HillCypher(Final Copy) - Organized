@@ -15,171 +15,196 @@ using namespace std;
 *********************************************************************************************************************************************
 */
 
-	void randKey(int [SIZE][SIZE]);
-	vector<int> Message();
-	int determinant(int [SIZE][SIZE]);
-	void inverse(int [SIZE][SIZE]);
-	int** transposegenerator(int [SIZE][SIZE]);
+void randKey(int [SIZE][SIZE]);
+vector<int> Message();
+int determinant(int [SIZE][SIZE]);
+void inverse(int [SIZE][SIZE]);
+int** transposegenerator(int [SIZE][SIZE]);
+void output(ofstream&);
+int* vectortowords(vector<int>);
+//TEMPLATE FOR OUTPUTTING VECTORS
+/*********************************************************************/
 
-	//TEMPLATE FOR OUTPUTTING VECTORS
-	/*********************************************************************/
-
-	template <typename T>
-	ostream & operator << (ostream &out, const vector<T> &v)
+template <typename T>
+ostream & operator << (ostream &out, const vector<T> &v)
+{
+	size_t last = v.size() - 1;
+	for(size_t i = 0; i < v.size(); i++)
 	{
-		size_t last = v.size() - 1;
-		for(size_t i = 0; i < v.size(); i++)
-		{
-			out << v[i];
-			if (i != last)
-			out << " ";				//Use this to change what is between the Vectors (between the double quotes) Right now its 1 space between each value
-		}
-		return out;
+		out << v[i];
+		if (i != last)
+		out << " ";				//Use this to change what is between the Vectors (between the double quotes) Right now its 1 space between each value
 	}
+	return out;
+}
 
-	/*********************************************************************/
+/*********************************************************************/
 
-	int key[SIZE][SIZE];					//Global - We Need this Everywhere
-	string filename = "";			//Need this For a lot too
+int key[SIZE][SIZE];					//Global - We Need this Everywhere
+string filename = "";					//Need this For a lot too
 
-	//Main Below
+//Main Below
 
-	int main()
-	{ //Main
-		randKey(key);								//Calls the RandKey Function
-		Message();
-	
+int main()
+{ //Main
+	randKey(key);								//Calls the RandKey Function
+	Message();
+	remove(filename.c_str());					//Deletes the File if It Already Exists
 	//********************************************
 		ofstream Stuff;						//****			Makes The Text File
 		Stuff.open(filename.c_str(), ios::app);//*
 	//********************************************
-		for(int i = 0; i < SIZE; i++)
-		{ //Outer for
-			for(int j = 0; j < SIZE; j++)
-			{ //Inner for
-				cout << key[i][j] << " ";			//For Debugging
-				Stuff << key[i][j] << " ";			//OutPuts the Matrix into the TextFile
-			} //Inner for
-			cout << "\b" << endl;					//Also For Debugging
-		} //Outer for
+	output(Stuff);
+	int det = determinant(key);
+	cout << det << endl;
+	inverse(key);
+} //Main
 
-		int det = determinant(key);
-		cout << det << endl;
-		inverse(key);
-	} //Main
-
-	vector<int> Message()
-	{
-		vector<int> a;
-		std::string message = "";
-		cout << "Please Enter the Message to Be Decrypted. \n";
-		getline(cin, message);								//Asks for the message they want to encrypt
-		cout << "Please Enter the Desired Filename(Please Exclude the .txt at the end)\n[MAX LENGTH = 128]:\n----> ";
-		getline(cin, filename);
-		filename += ".txt";
-			if(!message.empty())
-			{
-				cout << "Your Message is: \n" << message << endl << endl;
-				cout << "This is your Encrypted FileName! Please Keep it for Decryption!\n";
-				cout << filename << endl << endl;
-			}
-			else
-			{
-				getline(cin, message);
-				cout << "Your Message is: \n" << message << endl << endl;
-				cout << "This is your Encrypted FileName! Please Keep it for Decryption!\n";
-				cout << filename << endl << endl;
-			}
-		for (int count = 0; count < message.length(); count++)   //takes each character of the message
+vector<int> Message()
+{
+	vector<int> a;
+	std::string message = "";
+	cout << "Please Enter the Message to Be Decrypted. \n";
+	getline(cin, message);								//Asks for the message they want to encrypt
+	cout << "Please Enter the Desired Filename(Please Exclude the .txt at the end)\n[MAX LENGTH = 128]:\n----> ";
+	getline(cin, filename);
+	filename += ".txt";
+		if(!message.empty())
 		{
-			char y = message.at(count);
-			a.push_back(static_cast<int>(y));
+			cout << "Your Message is: \n" << message << endl << endl;
+			cout << "This is your Encrypted FileName! Please Keep it for Decryption!\n";
+			cout << filename << endl << endl;
 		}
-		if(a.size() % SIZE != 0)
-			a.push_back(0);
-		if(a.size() % SIZE != 0)
-			a.push_back(0);
-		cout << "The vector is: " << endl;
-		cout << a << endl;			//This works because of the template
-		return a;
-	}
-
-	void randKey(int key[SIZE][SIZE])
-	{
-		srand(time(0));
-
-		for(int i = 0; i < SIZE; i++)
-			for(int j = 0; j < SIZE; j++)
-				key[i][j] = rand() % 9 + 1;
-	}
-
-	int determinant(int key[SIZE][SIZE])
-	{
-		int det = 0;
-		for(int i = 0; i < SIZE; i++)
-		 {
-		  det = 
-			  det + 
-				  (
-					key[0][i] * 
-					(
-						key [1][(i + 1) % SIZE] * 
-						key [2][(i + 2) % SIZE] - 
-						key [1][(i + 2) % SIZE] * 
-						key [2][(i + 1) % SIZE]
-					)
-				  );
-		 }
-		return det;
-	}
-
-	int** transposegenerator(int key[SIZE][SIZE])	//Might be VERY inefficient, but the only way I learned
-	{
-		int** a = 0;
-		a = new int*[SIZE];
-
-		for (int i = 0; i < SIZE; i++)
+		else
 		{
-			a[i] = new int[SIZE];					//Makes new row(3) of pointers each time the loop is run
-			for (int j = 0; j < SIZE; j++)
-			{
-				a[i][j] = key[j][i];				//Switches Rows and Columns
-			}
+			getline(cin, message);
+			cout << "Your Message is: \n" << message << endl << endl;
+			cout << "This is your Encrypted FileName! Please Keep it for Decryption!\n";
+			cout << filename << endl << endl;
 		}
-
-		return a;										//Returns the Array of Pointers
-	}
-	void inverse(int key[SIZE][SIZE])
+	for (int count = 0; count < message.length(); count++)   //takes each character of the message
 	{
-		int** transpose = transposegenerator(key);
+		char y = message.at(count);
+		a.push_back(static_cast<int>(y));
+	}
+	if(a.size() % SIZE != 0)
+		a.push_back(0);
+	if(a.size() % SIZE != 0)
+		a.push_back(0);
+	cout << "The vector is: " << endl;
+	cout << a << endl;			//This works because of the template
+	//VECTOR TO WORDS
+	while(a.size() > 0)
+	{
+		int* b = vectortowords(a);
 		for(int i = 0; i < 3; i++)
-		{
-			for(int j = 0; j < 3; j++)
-				cout << transpose[i][j] << " ";
-			cout << endl;
-		}
-		//Initializes the Array to 0
-		int** inverse = 0;
-		inverse = new int*[SIZE];
-
-		for (int i = 0; i < SIZE; i++)
-		{
-			inverse[i] = new int[SIZE];					//Makes new row(3) of pointers each time the loop is run
-			for (int j = 0; j < SIZE; j++)
-			{
-				inverse[i][j] = 0;				//Switches Rows and Columns
-			}
-		}
-
-		//Transpose ^^^ Done.
-
-
-		//NEED THIS - Source: http://stackoverflow.com/questions/2814188/c-array-of-pointers-delete-or-delete
-
-		for (int i = 0; i < SIZE; i++)
-		{
-			delete [] transpose[i];
-		}
-		delete [] transpose;
-		transpose = 0;
+			cout << b[i] << " ";
+		cout << endl;
+		a.erase(a.begin(), a.begin() + 3);
+		system("pause");
 	}
+	return a;
+}
+
+void randKey(int key[SIZE][SIZE])
+{
+	srand(time(0));
+
+	for(int i = 0; i < SIZE; i++)
+		for(int j = 0; j < SIZE; j++)
+			key[i][j] = rand() % 9 + 1;
+
+}
+
+int determinant(int key[SIZE][SIZE])
+{
+	int det = 0;
+	for(int i = 0; i < SIZE; i++)
+		{
+		det = 
+			det + 
+				(
+				key[0][i] * 
+				(
+					key [1][(i + 1) % SIZE] * 
+					key [2][(i + 2) % SIZE] - 
+					key [1][(i + 2) % SIZE] * 
+					key [2][(i + 1) % SIZE]
+				)
+				);
+		}
+	return det;
+}
+
+int** transposegenerator(int key[SIZE][SIZE])	//Might be VERY inefficient, but the only way I learned
+{
+	int** a = 0;
+	a = new int*[SIZE];
+	for (int i = 0; i < SIZE; i++)
+	{
+		a[i] = new int[SIZE];					//Makes new row(3) of pointers each time the loop is run
+		for (int j = 0; j < SIZE; j++)
+		{
+			a[i][j] = key[j][i];				//Switches Rows and Columns
+		}
+	}
+	return a;										//Returns the Array of Pointers
+}
+void inverse(int key[SIZE][SIZE])
+{
+	int** transpose = transposegenerator(key);
+	for(int i = 0; i < 3; i++)
+	{
+		for(int j = 0; j < 3; j++)
+			cout << transpose[i][j] << " ";
+		cout << endl;
+	}
+	//Initializes the Array to 0
+	int** inverse = 0;
+	inverse = new int*[SIZE];
+
+	for (int i = 0; i < SIZE; i++)
+	{
+		inverse[i] = new int[SIZE];					//Makes new row(3) of pointers each time the loop is run
+		for (int j = 0; j < SIZE; j++)
+		{
+			inverse[i][j] = 0;				//Switches Rows and Columns
+		}
+	}
+
+	//Transpose ^^^ Done.
+
+
+	//NEED THIS - Source: http://stackoverflow.com/questions/2814188/c-array-of-pointers-delete-or-delete
+
+	for (int i = 0; i < SIZE; i++)
+	{
+		delete [] transpose[i];
+	}
+	delete [] transpose;
+	transpose = 0;
+}
+
+void output(ofstream& Stuff)
+{
+		
+	for(int i = 0; i < SIZE; i++)
+	{ //Outer for
+		for(int j = 0; j < SIZE; j++)
+		{ //Inner for
+			cout << key[i][j] << " ";			//For Debugging
+			Stuff << key[i][j] << " ";			//OutPuts the Matrix into the TextFile
+		} //Inner for
+		cout << "\b" << endl;					//Also For Debugging
+	} //Outer for
+
+}
+
+int* vectortowords(vector<int> a)
+{
+	int* b = 0;
+	b = new int[SIZE];
+	for(int i = 0; i < 3; i++)
+		b[i] = a.at(i);
+	return b;
+}
