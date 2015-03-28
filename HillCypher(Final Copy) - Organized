@@ -22,6 +22,7 @@ void inverse(int [SIZE][SIZE]);
 int** transposegenerator(int [SIZE][SIZE]);
 void output(ofstream&);
 int* vectortowords(vector<int>);
+void MatrixMultiplication(vector<int>, ofstream&);
 //TEMPLATE FOR OUTPUTTING VECTORS
 /*********************************************************************/
 
@@ -48,7 +49,7 @@ string filename = "";					//Need this For a lot too
 int main()
 { //Main
 	randKey(key);								//Calls the RandKey Function
-	Message();
+	vector<int> a = Message();
 	remove(filename.c_str());					//Deletes the File if It Already Exists
 	//********************************************
 		ofstream Stuff;						//****			Makes The Text File
@@ -57,7 +58,8 @@ int main()
 	output(Stuff);
 	int det = determinant(key);
 	cout << det << endl;
-	inverse(key);
+	MatrixMultiplication(a, Stuff);
+	//inverse(key);
 } //Main
 
 vector<int> Message()
@@ -93,7 +95,10 @@ vector<int> Message()
 		a.push_back(0);
 	cout << "The vector is: " << endl;
 	cout << a << endl;			//This works because of the template
+
 	//VECTOR TO WORDS
+	//Can move this to MatrixMultiplication Function
+	/*
 	while(a.size() > 0)
 	{
 		int* b = vectortowords(a);
@@ -103,6 +108,7 @@ vector<int> Message()
 		a.erase(a.begin(), a.begin() + 3);
 		system("pause");
 	}
+	*/
 	return a;
 }
 
@@ -207,4 +213,36 @@ int* vectortowords(vector<int> a)
 	for(int i = 0; i < 3; i++)
 		b[i] = a.at(i);
 	return b;
+}
+
+void MatrixMultiplication(vector<int> a, ofstream& Stuff) //i need the code for the conversion of the message
+                            //in order to run the multiplication as many times needed
+{
+	cout << a << endl;
+	system("pause");
+	while(a.size() > 0)
+	{
+		int total = 0;
+		int* b = vectortowords(a);
+		for(int i = 0; i < 3; i++)
+			cout << b[i] << " ";
+		cout << endl;
+		for (int i = 0; i < 3; i++)
+		{
+			for (int j = 0; j < 3; j++)
+			{
+				total += key[i][j] * b[j];  //mulitplies Key by matrix W
+			}
+		cout << setw(8) << total << endl; //total displays the product in 3x1 matrix,
+		Stuff << total << " ";
+		}									  //although its not really a matrix yet.
+		cout << endl;
+		total = 0;
+		a.erase(a.begin(), a.begin() + 3);
+		system("pause");	
+		if(a.size() > 0)
+			continue;
+		else
+			break;
+	}
 }
