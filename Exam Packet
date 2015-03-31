@@ -1,0 +1,131 @@
+/*(Guess the Number Game) Write a program that plays the game of "guess the number"
+as follows: Your program chooses the number to be guessed by selecting an integer at
+random in the range 1 to 1000. The program then displays the following:
+
+I have a number between 1 and 1000.
+Can you guess my number?
+Please type your first guess.
+
+The player then types a first guess. The program responds with one of the following:
+
+1. Excellent! You guessed the number!
+Would you like to play again (y or n)?
+2. Too low. Try again.
+3. Too high. Try again.
+
+If the player's guess is incorrect, your program should loop until the player finally gets
+the number right. Your program should keep telling the player Too high or Too low to
+help the player "zero in" on the correct answer.
+*/
+#include <iostream>
+#include <iomanip>
+#include <cstdlib>
+#include <ctime>
+using namespace std;
+
+int main()
+{
+	int guess;
+	char again;
+	srand(time(0));
+
+	do{
+		int count = 0;
+		cout << "I have a number between 1 and 1000." << endl
+			<< "Can you guess my number?\n"
+			"Please type your first guess: " << endl;
+
+		int random = 1 + (rand() % 1000);
+
+		do{
+			cin >> guess;
+			if (guess < random)
+				cout << "Too low. Try again." << endl;
+			if (guess > random)
+				cout << "Too high. Try again." << endl;
+			count += 1;
+		} while (guess != random);
+
+		cout << "Congratulations, you guessed correct! \nIt took you " << count << " tries \nPlay again? (Y or N)" << endl;
+		cin >> again;
+		cout << endl;
+	} while (again == 'Y' || again == 'y');
+
+}
+
+
+/*Write a program that simulates coin tossing. For each toss of the coin, the program
+	should print Heads or Tails. Let the program toss the coin 100 times and count the
+	number of times each side of the coin appears. Print the results. The program should call
+	a separate function flip that takes no arguments and returns 0 for tails and 1 for heads.
+	[Note: If the program realistically simulates the coin tossing, then each side of the coin
+	should appear approximately half the time.] */
+int flip();
+int main()
+{
+	srand(time(0));
+	for (int i = 0; i < 100; i++)
+	{
+		cout << "Coin Toss: ";
+		if (flip() == 0)
+			cout << "Tails" << endl;
+		else
+			cout << "Heads" << endl;
+	}
+	
+}
+
+int flip()
+{
+	
+	if (rand() % 2 == 0)
+		return 0;
+	else
+		return 1;
+
+}
+
+int perfect(int x);
+int main()
+{
+ /*6.29 (Perfect Numbers) An integer is said to be a perfect number if the sum of its factors,
+including 1 (but not the number itself), is equal to the number. For example, 6 is a
+perfect number, because 6 = 1 + 2 + 3. Write a function perfect that determines
+whether parameter number is a perfect number. Use this function in a program that
+determines and prints all the perfect numbers between 1 and 1000. Print the factors of
+each perfect number to confirm that the number is indeed perfect. Challenge the power
+of your computer by testing numbers much larger than 1000.  */
+
+	int x = 2;
+	for (x; x <= 10000; x++)
+	{
+		if (perfect(x) == 1)
+		{
+			cout << x << ": ";
+			for (int i = 1; i < x; i++)
+			{
+				if (x % i == 0)
+					cout << i << " ";
+			}
+			cout << endl;
+		}
+		if (x == 1001)
+			cout << endl << "More than 1000:" << endl;
+	}
+	cout << endl;
+}
+int perfect(int x)
+{
+	int sum = 0;
+	for (int i = 1; i < x; i++)
+	{
+		if (x % i == 0)
+			sum += i;
+	}
+
+	if (sum == x)
+		return 1;
+	else
+		return 0;
+
+}
