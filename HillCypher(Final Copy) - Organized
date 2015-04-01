@@ -31,6 +31,7 @@ vector<int> sizecheck(vector<int>);
 vector<int> fetch(ifstream&);
 vector<int> MatrixMultiplyDecode(float [SIZE][SIZE], vector<int>);
 void Encrypt();
+void intro();
 //TEMPLATE FOR OUTPUTTING VECTORS
 /*********************************************************************/
 
@@ -46,6 +47,36 @@ ostream & operator << (ostream &out, const vector<T> &v)
 	}
 	return out;
 }
+//Prints Different Colors upon call
+//example
+//cout << colorname << variable/text;
+enum COLORS
+{
+    	black,
+	blue,
+	green,
+	cyan,
+	red,
+	magenta,
+	brown,
+	normal,
+	darkgrey,
+	lightblue,
+	lightgreen,
+	lightcyan,
+	lightred,
+	lightmagenta,
+	yellow,
+	white
+};
+
+ostream& operator << (ostream &textcolor, const COLORS &Color)
+{
+    HANDLE out = GetStdHandle(STD_OUTPUT_HANDLE);
+    SetConsoleTextAttribute(out, Color);
+    return(textcolor);
+}
+
 /*********************************************************************/
 
 float key[SIZE][SIZE];					//Global - We Need these Keys Everywhere
@@ -57,6 +88,7 @@ string sht;						//Does nothing
 
 int main()
 { //Main
+	intro();
 	char choose;
 	cout << "Would you like to Encrypt or Decrypt? \nE - Encrypt\nD - Decrypt\n\t\t\t\t\t";
 	cin >> choose;
@@ -427,4 +459,45 @@ vector<int> fetch(ifstream& EncodedM)
 		b.push_back(a);
 	}
 	return b;
+}
+
+void intro()
+{
+	ShowWindow(GetConsoleWindow(), SW_MAXIMIZE);
+	PlaySound(TEXT("GetLowRemix.wav"), NULL, SND_ASYNC);
+	system("Color 1B");
+	Sleep(1000);
+	system("CLS");
+	cout << "\n\t\t\t\tThe Matrix Machine";
+	system("Color 2D");
+	Sleep(1000);
+	system("CLS");
+	cout << "\n\n\t\t\t\tThe Matrix Machine";
+	system("Color 3E");
+	Sleep(1000);
+	system("CLS");
+	cout << "\n\n\n\t\t\t\tThe Matrix Machine";
+	system("Color 4F");
+	Sleep(1000);
+	system("CLS");
+	cout << "\n\n\n\n\t\t\t\tThe Matrix Machine";
+	system("Color 5A");
+	Sleep(1000);
+	system("CLS");
+	cout << "\n\n\n\n\n\t\t\t\tThe Matrix Machine";
+	system("Color 6C");
+	Sleep(1000);
+	system("CLS");
+	cout << "\n\n\n\n\n\n\t\t\t\tThe Matrix Machine\n";
+	Sleep(1000);
+	system("COLOR A7");
+	cout << lightmagenta << "\t\t\t\t  Abhishek  Patel\n";
+	Sleep(1000);
+	system("COLOR FC");
+	cout << white << "\t\t\t\t   Samuel Carlos\n";
+	Sleep(1000);
+	system("COLOR B3");
+	cout << lightred <<  "\t\t\t\t    Julie Pirro\n";
+	Sleep(1000);
+	system("COLOR 08");
 }
