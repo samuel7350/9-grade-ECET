@@ -3,11 +3,12 @@
 #include <iomanip>
 #include <time.h>
 #include <cstdlib>
-#include "stdlib.h"
+#include <stdio.h>
 #include <vector>
 #include <string>
 #include <time.h>
-
+#include <sstream>
+#include <math.h>
 #define SIZE 3
 using namespace std;
 
@@ -15,14 +16,20 @@ using namespace std;
 *********************************************************************************************************************************************
 */
 
-void randKey(int [SIZE][SIZE]);
+void randKey(float [SIZE][SIZE]);
 vector<int> Message();
-int determinant(int [SIZE][SIZE]);
-void inverse(int [SIZE][SIZE]);
-int** transposegenerator(int [SIZE][SIZE]);
-void output(ofstream&);
-int* vectortowords(vector<int>);
-void MatrixMultiplication(vector<int>, ofstream&);
+float determinant(float [SIZE][SIZE]);
+vector<float> inverse(float [SIZE][SIZE], int);
+int** transposegenerator(float [SIZE][SIZE]);
+void outputkey(ofstream&);
+ofstream createtxt();
+ifstream openfile();
+void Decrypt();
+vector<float> getkey(ifstream&);
+vector<int> MatrixMultiply(float [SIZE][SIZE], vector<int>);
+vector<int> sizecheck(vector<int>);
+vector<int> fetch(ifstream&);
+vector<int> MatrixMultiplyDecode(float [SIZE][SIZE], vector<int>);
 //TEMPLATE FOR OUTPUTTING VECTORS
 /*********************************************************************/
 
@@ -34,14 +41,14 @@ ostream & operator << (ostream &out, const vector<T> &v)
 	{
 		out << v[i];
 		if (i != last)
-		out << " ";				//Use this to change what is between the Vectors (between the double quotes) Right now its 1 space between each value
+		out << endl;				//Use this to change what is between the Vectors (between the double quotes) Right now its 1 space between each value
 	}
 	return out;
 }
-
 /*********************************************************************/
 
-int key[SIZE][SIZE];					//Global - We Need this Everywhere
+float key[SIZE][SIZE];					//Global - We Need these Keys Everywhere
+float decryptkey[3][3];
 string filename = "";					//Need this For a lot too
 
 //Main Below
@@ -50,18 +57,17 @@ int main()
 { //Main
 	randKey(key);								//Calls the RandKey Function
 	vector<int> a = Message();
+	cout << filename << endl;
 	remove(filename.c_str());					//Deletes the File if It Already Exists
-	//********************************************
-		ofstream Stuff;						//****			Makes The Text File
-		Stuff.open(filename.c_str(), ios::app);//*
-	//********************************************
-	output(Stuff);
-	int det = determinant(key);
-	cout << det << endl;
-	MatrixMultiplication(a, Stuff);
-	//inverse(key);
+	ofstream Stuff = createtxt();
+	outputkey(Stuff);
+	a = MatrixMultiply(key, a);
+	Stuff << endl 
+		  << a 
+		  << endl;
+	Stuff.close();
+	Decrypt();
 } //Main
-
 vector<int> Message()
 {
 	vector<int> a;
@@ -89,30 +95,12 @@ vector<int> Message()
 		char y = message.at(count);
 		a.push_back(static_cast<int>(y));
 	}
-	if(a.size() % SIZE != 0)
-		a.push_back(0);
-	if(a.size() % SIZE != 0)
-		a.push_back(0);
+	a = sizecheck(a);
 	cout << "The vector is: " << endl;
 	cout << a << endl;			//This works because of the template
-
-	//VECTOR TO WORDS
-	//Can move this to MatrixMultiplication Function
-	/*
-	while(a.size() > 0)
-	{
-		int* b = vectortowords(a);
-		for(int i = 0; i < 3; i++)
-			cout << b[i] << " ";
-		cout << endl;
-		a.erase(a.begin(), a.begin() + 3);
-		system("pause");
-	}
-	*/
 	return a;
 }
-
-void randKey(int key[SIZE][SIZE])
+void randKey(float key[SIZE][SIZE])
 {
 	srand(time(0));
 
@@ -121,8 +109,7 @@ void randKey(int key[SIZE][SIZE])
 			key[i][j] = rand() % 9 + 1;
 
 }
-
-int determinant(int key[SIZE][SIZE])
+float determinant(float key[SIZE][SIZE])
 {
 	int det = 0;
 	for(int i = 0; i < SIZE; i++)
@@ -141,108 +128,213 @@ int determinant(int key[SIZE][SIZE])
 		}
 	return det;
 }
-
-int** transposegenerator(int key[SIZE][SIZE])	//Might be VERY inefficient, but the only way I learned
+vector<float> inverse(float k[SIZE][SIZE], float det)
 {
-	int** a = 0;
-	a = new int*[SIZE];
-	for (int i = 0; i < SIZE; i++)
-	{
-		a[i] = new int[SIZE];					//Makes new row(3) of pointers each time the loop is run
-		for (int j = 0; j < SIZE; j++)
-		{
-			a[i][j] = key[j][i];				//Switches Rows and Columns
-		}
-	}
-	return a;										//Returns the Array of Pointers
-}
-void inverse(int key[SIZE][SIZE])
-{
-	int** transpose = transposegenerator(key);
+	vector<float> s;
+	stringstream test;
+	long double key[3][3];
+	long double t[3][3] = {0};
+	for(int i = 0; i < 3; i++)
+		for(int j = 0; j < 3; j++)
+			key[i][j] = k[j][i];
+	test << setprecision(100) << (key[1][1] * key[2][2]) - (key[2][1] * key[1][2]);
+	test >> t[0][0];
+	test.clear();
+	test << setprecision(100) << -((key[1][0] * key[2][2]) - (key[2][0] * key[1][2]));
+	test >> t[0][1];
+	test.clear();
+	test << setprecision(100) << (key[1][0] * key[2][1]) - (key[1][1] * key[2][0]);
+	test >> t[0][2];
+	test.clear();
+	test << setprecision(100) << -((key[0][1] * key[2][2]) - (key[2][1] * key[0][2]));
+	test >> t[1][0];
+	test.clear();
+	test << setprecision(100) << (key[0][0] * key[2][2]) - (key[2][0] * key[0][2]);
+	test >> t[1][1];
+	test.clear();
+	test << setprecision(100) << -((key[0][0] * key[2][1]) - (key[2][0] * key[0][1]));
+	test >> t[1][2];
+	test.clear();
+	test << setprecision(100) << (key[0][1] * key[1][2]) - (key[1][1] * key[0][2]);
+	test >> t[2][0];
+	test.clear();
+	test << setprecision(100) << -((key[0][0] * key[1][2]) - (key[1][0] * key[0][2]));
+	test >> t[2][1];
+	test.clear();
+	test << setprecision(100) << (key[0][0] * key[1][1]) - (key[1][0] * key[0][1]);
+	test >> t[2][2];
+	test.clear();
 	for(int i = 0; i < 3; i++)
 	{
 		for(int j = 0; j < 3; j++)
-			cout << transpose[i][j] << " ";
+		{
+			test.clear();
+			test << setprecision(100) << t[i][j] * (1/det);
+			test >> t[i][j];
+			cout << t[i][j] << " ";
+			s.push_back(t[i][j]);
+		}
 		cout << endl;
 	}
-	//Initializes the Array to 0
-	int** inverse = 0;
-	inverse = new int*[SIZE];
-
-	for (int i = 0; i < SIZE; i++)
-	{
-		inverse[i] = new int[SIZE];					//Makes new row(3) of pointers each time the loop is run
-		for (int j = 0; j < SIZE; j++)
-		{
-			inverse[i][j] = 0;				//Switches Rows and Columns
-		}
-	}
-
-	//Transpose ^^^ Done.
-
-
-	//NEED THIS - Source: http://stackoverflow.com/questions/2814188/c-array-of-pointers-delete-or-delete
-
-	for (int i = 0; i < SIZE; i++)
-	{
-		delete [] transpose[i];
-	}
-	delete [] transpose;
-	transpose = 0;
+	return s;
 }
-
-void output(ofstream& Stuff)
-{
-		
+void outputkey(ofstream& Stuff)
+{	
 	for(int i = 0; i < SIZE; i++)
 	{ //Outer for
 		for(int j = 0; j < SIZE; j++)
 		{ //Inner for
 			cout << key[i][j] << " ";			//For Debugging
-			Stuff << key[i][j] << " ";			//OutPuts the Matrix into the TextFile
+			Stuff << key[i][j];					//OutPuts the Matrix into the TextFile
 		} //Inner for
 		cout << "\b" << endl;					//Also For Debugging
 	} //Outer for
 
 }
-
-int* vectortowords(vector<int> a)
+ofstream createtxt()
 {
-	int* b = 0;
-	b = new int[SIZE];
+	//********************************************
+		ofstream Stuff;						//****			Makes The Text File
+		Stuff.open(filename.c_str(), ios::app);//*
+	//********************************************
+		return Stuff;
+}
+void Decrypt()
+{
+	ifstream EncodedM = openfile();
+	vector<float> filekey;
+	filekey = getkey(EncodedM);
+	int a = 0;
 	for(int i = 0; i < 3; i++)
-		b[i] = a.at(i);
-	return b;
+	{
+		for(int j = 0; j < 3; j++)
+		{
+			decryptkey[i][j] = filekey.at(j + a);
+			cout << decryptkey[i][j] << " ";
+		}
+		a += 3;
+	}
+	float det = determinant(decryptkey);
+	cout << endl;
+	cout << det;
+	cout << endl << endl << endl << flush;
+	filekey.empty();
+	vector<int> fromfile;
+	fromfile = fetch(EncodedM);
+	cout << fromfile;
+	vector<float> tempinv;
+	tempinv = inverse(decryptkey, det);
+	float inversekey[3][3];
+	int q = 0;
+	system("CLS");
+	for(int i = 0; i < 3; i++)
+	{
+		for(int j = 0; j < 3; j++)
+		{
+			inversekey[i][j] = tempinv[q];
+			cout << inversekey[i][j] << " ";
+			q++;
+		}
+		cout << endl;
+	}
+	system("PAUSE");
+		vector<int> answer;
+	answer = MatrixMultiply(inversekey, fromfile);
+	system("CLS");
+	cout << answer;
+	for(int i = 0; i < answer.size(); i++)
+		cout << static_cast<char>(answer[i]);
+	//then- invert matrix
+	//we have the words stored in fromfile <- vector
+	//
+	
 }
 
-void MatrixMultiplication(vector<int> a, ofstream& Stuff) //i need the code for the conversion of the message
-                            //in order to run the multiplication as many times needed
+ifstream openfile()
 {
-	cout << a << endl;
-	system("pause");
-	while(a.size() > 0)
+	string file;
+		cout << "Here is a list of all the .txt files in the Directory.\n";
+		char del;
+		system("dir *.txt /a-d /b");
+		cout << "Would you like to delete all files in the current folder?(y/n): ";
+		cin >> del;
+		if(del =='y' || del == 'Y')
+		{
+			string c = "del /Q ";
+			string p = "*.txt";
+			system(c.append(p).c_str());
+		}
+	ifstream EncodedM;
+		cout << "Please Enter the FileName of your Encoded Text: ";
+		getline(cin, file);
+		if(file.length() == 0)
+			getline(cin, file);
+		EncodedM.open (file.c_str(), std::ifstream::in);
+	return EncodedM;
+}
+
+vector<float> getkey(ifstream& EncodedM)
+{
+		char c = EncodedM.get();
+		vector<float> a;
+		a.push_back(int(c) - 48);
+		while (EncodedM.good())
+		{
+			c = EncodedM.get();
+			a.push_back(int(c) - 48);
+			if(a.size() == 10)
+				break;
+		}
+		a.erase(a.end()-1, a.end());
+		return a;
+}
+
+vector<int> MatrixMultiply(float key[3][3], vector<int> before)
+{
+
+	float total = 0;
+	vector<int> after;
+
+	while(before.size() != 0)
 	{
-		int total = 0;
-		int* b = vectortowords(a);
-		for(int i = 0; i < 3; i++)
-			cout << b[i] << " ";
-		cout << endl;
+		int q = 0;
 		for (int i = 0; i < 3; i++)
 		{
-			for (int j = 0; j < 3; j++)
+			for (int k = 0; k < 3; k++)
 			{
-				total += key[i][j] * b[j];  //mulitplies Key by matrix W
+				total += (key[i][k] * before[q]);  //mulitplies Key by matrix W
+				q++;
 			}
-		cout << setw(8) << total << endl; //total displays the product in 3x1 matrix,
-		Stuff << total << " ";
-		}									  //although its not really a matrix yet.
-		cout << endl;
+			int rounded = floor(total + 0.5);
+			cout << setw(8) << rounded << endl; //total displays the product in 3x1 matrix,
+											  //although its not really a matrix yet.
+			after.push_back(rounded);
+
+			total = 0;
+			q = 0;
+		}
 		total = 0;
-		a.erase(a.begin(), a.begin() + 3);
-		system("pause");	
-		if(a.size() > 0)
-			continue;
-		else
-			break;
+		before.erase(before.begin(), before.begin() + 3);
 	}
+	return after;
+}
+
+vector<int> sizecheck(vector<int> test)
+{
+		if(test.size() % 3 != 0)
+			test.push_back(0);
+		if(test.size() % 3 != 0)
+			test.push_back(0);
+	return test;
+}
+
+vector<int> fetch(ifstream& EncodedM)
+{
+	int a;
+	vector<int> b;
+	while(EncodedM >> a)
+	{
+		b.push_back(a);
+	}
+	return b;
 }
