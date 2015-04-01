@@ -50,7 +50,8 @@ ostream & operator << (ostream &out, const vector<T> &v)
 float key[SIZE][SIZE];					//Global - We Need these Keys Everywhere
 float decryptkey[3][3];
 string filename = "";					//Need this For a lot too
-
+stringstream overflow;					//Takes in all Overflow
+string sht;								//Does nothing
 //Main Below
 
 int main()
@@ -85,14 +86,59 @@ vector<int> Message()
 				continue;
 			}
 	}
+	char choose;
+	cout << "Would you Like to See a List of the Text Files in the Current Directory? (Y/N)";
+	cin >> choose;
+	overflow << getline(cin, sht);
+	if(choose == 'y' || choose == 'Y')
+	{
+		system("dir *.txt /a-d /b");
+		cout << "Would you like to delete all these files?(y/n): ";
+		cin >> choose;
+		overflow << getline(cin, sht);
+		if(choose =='y' || choose == 'Y')
+		{
+			cout << "ARE YOU SURE??\n";
+			cin >> choose;
+			overflow << getline(cin, sht);
+			if(choose =='y' || choose == 'Y')
+			{
+				string c = "del /Q ";
+				string p = "*.txt";
+				system(c.append(p).c_str());
+			}
+		}
+	}
+	else
+	{
+		cout << "Would You like to Clear the Current Folder of ALL Text Files (Y/N): ";
+		cin >> choose;
+		overflow << getline(cin, sht);
+		if(choose =='y' || choose == 'Y')
+		{
+			cout << "ARE YOU SURE??\n";
+			cin >> choose;
+			overflow << getline(cin, sht);
+			if(choose =='y' || choose == 'Y')
+			{
+				string c = "del /Q ";
+				string p = "*.txt";
+				system(c.append(p).c_str());
+			}
+		}
+	}
 	while(true)
 	{
+		system("CLS");
 		cout << "Please Enter the Desired Filename(Please Exclude the .txt at the end)\n[MAX LENGTH = 128]:\n----> ";
 		getline(cin, filename);
+		filename += ".txt";
 		if(!filename.empty())
 				{
+					system("CLS");
 					cout << "Your Filename is: \n" << filename << endl;
 					cout << "And your Message is: \n" << message << endl;
+					system("PAUSE");
 					break;
 				}
 				else
@@ -100,7 +146,6 @@ vector<int> Message()
 					continue;
 				}
 	}
-	filename += ".txt";
 		
 	for (int count = 0; count < message.length(); count++)   //takes each character of the message
 	{
@@ -240,11 +285,29 @@ void Decrypt()
 			q++;
 		}
 	}
-		vector<int> answer;
+	vector<int> answer;
 	answer = MatrixMultiply(inversekey, fromfile);
 	for(int i = 0; i < answer.size(); i++)
 		cout << static_cast<char>(answer[i]);
 	cout << endl;
+	cout << "Would You Like to Store This into a .txt File?\n";
+	string choose;
+	cin >> choose;
+
+	if(choose.at(0) == 'y' || choose.at(0) == 'Y')
+	{
+		string sht;
+		string file;
+		cout << "Please Enter the Filename You would like to store it in: ";
+		overflow << getline(cin, sht);
+		getline(cin, file);
+		ofstream final;
+		file += ".txt";
+		final.open(file.c_str());
+		for(int i = 0; i < answer.size(); i++)
+			final << static_cast<char>(answer[i]);
+		cout << "DONE!";
+	}
 
 }
 
@@ -252,17 +315,7 @@ ifstream openfile()
 {
 	string file;
 		cout << "Here is a list of all the .txt files in the Directory.\n";
-		char del;
 		system("dir *.txt /a-d /b");
-		cout << "Would you like to delete all files in the current folder?(y/n): ";
-		cin >> del;
-		if(del =='y' || del == 'Y')
-		{
-			string c = "del /Q ";
-			string p = "*.txt";
-			system(c.append(p).c_str());
-		}
-		cin.ignore();
 	ifstream EncodedM;
 	while(true)
 	{
