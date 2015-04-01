@@ -57,7 +57,6 @@ int main()
 { //Main
 	randKey(key);								//Calls the RandKey Function
 	vector<int> a = Message();
-	cout << filename << endl;
 	remove(filename.c_str());					//Deletes the File if It Already Exists
 	ofstream Stuff = createtxt();
 	outputkey(Stuff);
@@ -72,32 +71,43 @@ vector<int> Message()
 {
 	vector<int> a;
 	std::string message = "";
-	cout << "Please Enter the Message to Be Decrypted. \n";
-	getline(cin, message);								//Asks for the message they want to encrypt
-	cout << "Please Enter the Desired Filename(Please Exclude the .txt at the end)\n[MAX LENGTH = 128]:\n----> ";
-	getline(cin, filename);
-	filename += ".txt";
+	while(true)
+	{
+		cout << "Please Enter the Message to Be Decrypted. \n";
+		getline(cin, message);								//Asks for the message they want to encrypt
 		if(!message.empty())
-		{
-			cout << "Your Message is: \n" << message << endl << endl;
-			cout << "This is your Encrypted FileName! Please Keep it for Decryption!\n";
-			cout << filename << endl << endl;
-		}
-		else
-		{
-			getline(cin, message);
-			cout << "Your Message is: \n" << message << endl << endl;
-			cout << "This is your Encrypted FileName! Please Keep it for Decryption!\n";
-			cout << filename << endl << endl;
-		}
+			{
+				system("CLS");
+				break;
+			}
+			else
+			{
+				continue;
+			}
+	}
+	while(true)
+	{
+		cout << "Please Enter the Desired Filename(Please Exclude the .txt at the end)\n[MAX LENGTH = 128]:\n----> ";
+		getline(cin, filename);
+		if(!filename.empty())
+				{
+					cout << "Your Filename is: \n" << filename << endl;
+					cout << "And your Message is: \n" << message << endl;
+					break;
+				}
+				else
+				{
+					continue;
+				}
+	}
+	filename += ".txt";
+		
 	for (int count = 0; count < message.length(); count++)   //takes each character of the message
 	{
 		char y = message.at(count);
 		a.push_back(static_cast<int>(y));
 	}
 	a = sizecheck(a);
-	cout << "The vector is: " << endl;
-	cout << a << endl;			//This works because of the template
 	return a;
 }
 void randKey(float key[SIZE][SIZE])
@@ -184,10 +194,8 @@ void outputkey(ofstream& Stuff)
 	{ //Outer for
 		for(int j = 0; j < SIZE; j++)
 		{ //Inner for
-			cout << key[i][j] << " ";			//For Debugging
 			Stuff << key[i][j];					//OutPuts the Matrix into the TextFile
 		} //Inner for
-		cout << "\b" << endl;					//Also For Debugging
 	} //Outer for
 
 }
@@ -201,6 +209,7 @@ ofstream createtxt()
 }
 void Decrypt()
 {
+	system("CLS");
 	ifstream EncodedM = openfile();
 	vector<float> filekey;
 	filekey = getkey(EncodedM);
@@ -210,14 +219,10 @@ void Decrypt()
 		for(int j = 0; j < 3; j++)
 		{
 			decryptkey[i][j] = filekey.at(j + a);
-			cout << decryptkey[i][j] << " ";
 		}
 		a += 3;
 	}
 	float det = determinant(decryptkey);
-	cout << endl;
-	cout << det;
-	cout << endl << endl << endl << flush;
 	filekey.empty();
 	vector<int> fromfile;
 	fromfile = fetch(EncodedM);
@@ -232,22 +237,15 @@ void Decrypt()
 		for(int j = 0; j < 3; j++)
 		{
 			inversekey[i][j] = tempinv[q];
-			cout << inversekey[i][j] << " ";
 			q++;
 		}
-		cout << endl;
 	}
-	system("PAUSE");
 		vector<int> answer;
 	answer = MatrixMultiply(inversekey, fromfile);
-	system("CLS");
-	cout << answer;
 	for(int i = 0; i < answer.size(); i++)
 		cout << static_cast<char>(answer[i]);
-	//then- invert matrix
-	//we have the words stored in fromfile <- vector
-	//
-	
+	cout << endl;
+
 }
 
 ifstream openfile()
@@ -264,12 +262,24 @@ ifstream openfile()
 			string p = "*.txt";
 			system(c.append(p).c_str());
 		}
+		cin.ignore();
 	ifstream EncodedM;
+	while(true)
+	{
 		cout << "Please Enter the FileName of your Encoded Text: ";
 		getline(cin, file);
 		if(file.length() == 0)
 			getline(cin, file);
-		EncodedM.open (file.c_str(), std::ifstream::in);
+		EncodedM.open (file.c_str(),ifstream::in);
+		if(EncodedM.good())
+			break;
+		if(EncodedM.fail())
+		{
+			cout << "CORRECTLY!!\n";
+			continue;
+		}
+	}
+
 	return EncodedM;
 }
 
@@ -306,7 +316,7 @@ vector<int> MatrixMultiply(float key[3][3], vector<int> before)
 				q++;
 			}
 			int rounded = floor(total + 0.5);
-			cout << setw(8) << rounded << endl; //total displays the product in 3x1 matrix,
+											  //total oushed back into after
 											  //although its not really a matrix yet.
 			after.push_back(rounded);
 
