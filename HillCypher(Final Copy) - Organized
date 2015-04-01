@@ -9,6 +9,7 @@
 #include <time.h>
 #include <sstream>
 #include <math.h>
+#include <Windows.h>
 #define SIZE 3
 using namespace std;
 
