@@ -30,6 +30,7 @@ vector<int> MatrixMultiply(float [SIZE][SIZE], vector<int>);
 vector<int> sizecheck(vector<int>);
 vector<int> fetch(ifstream&);
 vector<int> MatrixMultiplyDecode(float [SIZE][SIZE], vector<int>);
+void Encrypt();
 //TEMPLATE FOR OUTPUTTING VECTORS
 /*********************************************************************/
 
@@ -56,7 +57,32 @@ string sht;								//Does nothing
 
 int main()
 { //Main
-	randKey(key);								//Calls the RandKey Function
+	char choose;
+	cout << "Would you like to Encrypt or Decrypt? \nE - Encrypt\nD - Decrypt\n\t\t\t\t\t";
+	cin >> choose;
+	if(choose == 'e' || choose == 'E')
+	{
+		Encrypt();
+		cout << "Would You Like to Decrypt?\n";
+		cin >> choose;
+		overflow << getline(cin, sht);
+		if(choose == 'y' || choose == 'Y')
+			Decrypt();
+	}
+	if(choose == 'd' || choose == 'D')
+	{
+		Decrypt();
+		cout << "Would You Like to Encrypt?\n";
+		cin >> choose;
+		overflow << getline(cin, sht);
+		if(choose == 'y' || choose == 'Y')
+			Encrypt();
+	}
+} //Main
+
+void Encrypt()
+{
+		randKey(key);								//Calls the RandKey Function
 	vector<int> a = Message();
 	remove(filename.c_str());					//Deletes the File if It Already Exists
 	ofstream Stuff = createtxt();
@@ -66,15 +92,15 @@ int main()
 		  << a 
 		  << endl;
 	Stuff.close();
-	Decrypt();
-} //Main
+}
 vector<int> Message()
 {
 	vector<int> a;
 	std::string message = "";
 	while(true)
 	{
-		cout << "Please Enter the Message to Be Decrypted. \n";
+		cin.ignore();
+		cout << "Please Enter the Message to Be Encrypted. \n";
 		getline(cin, message);								//Asks for the message they want to encrypt
 		if(!message.empty())
 			{
