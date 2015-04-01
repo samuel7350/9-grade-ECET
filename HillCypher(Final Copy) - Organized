@@ -52,7 +52,7 @@ float key[SIZE][SIZE];					//Global - We Need these Keys Everywhere
 float decryptkey[3][3];
 string filename = "";					//Need this For a lot too
 stringstream overflow;					//Takes in all Overflow
-string sht;								//Does nothing
+string sht;						//Does nothing
 //Main Below
 
 int main()
@@ -60,6 +60,7 @@ int main()
 	char choose;
 	cout << "Would you like to Encrypt or Decrypt? \nE - Encrypt\nD - Decrypt\n\t\t\t\t\t";
 	cin >> choose;
+	overflow << getline(cin, sht);
 	if(choose == 'e' || choose == 'E')
 	{
 		Encrypt();
@@ -82,7 +83,7 @@ int main()
 
 void Encrypt()
 {
-		randKey(key);								//Calls the RandKey Function
+	randKey(key);							//Calls the RandKey Function
 	vector<int> a = Message();
 	remove(filename.c_str());					//Deletes the File if It Already Exists
 	ofstream Stuff = createtxt();
@@ -101,7 +102,7 @@ vector<int> Message()
 	{
 		cin.ignore();
 		cout << "Please Enter the Message to Be Encrypted. \n";
-		getline(cin, message);								//Asks for the message they want to encrypt
+		getline(cin, message);				//Asks for the message they want to encrypt
 		if(!message.empty())
 			{
 				system("CLS");
