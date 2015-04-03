@@ -17,22 +17,20 @@ using namespace std;
 *********************************************************************************************************************************************
 */
 
-void randKey(float [SIZE][SIZE]);
-vector<int> Message();
-float determinant(float [SIZE][SIZE]);
-vector<float> inverse(float [SIZE][SIZE], int);
-int** transposegenerator(float [SIZE][SIZE]);
-void outputkey(ofstream&);
-ofstream createtxt();
-ifstream openfile();
-void Decrypt();
-vector<float> getkey(ifstream&);
-vector<int> MatrixMultiply(float [SIZE][SIZE], vector<int>);
-vector<int> sizecheck(vector<int>);
-vector<int> fetch(ifstream&);
-vector<int> MatrixMultiplyDecode(float [SIZE][SIZE], vector<int>);
-void Encrypt();
-void intro();
+void randKey(float [SIZE][SIZE]);					//Creates Random Key
+vector<int> Message();							//Gets the Message, Stores it in a Vector
+float determinant(float [SIZE][SIZE]);					//Calculates the Determinant
+vector<float> inverse(float [SIZE][SIZE], int);				//Finds the Inverse Matrix of the Key
+void outputkey(ofstream&);						//Writes the Key into the Txt File
+ofstream createtxt();							//Makes the Text File
+ifstream openfile();							//Opens the Specified Txt File
+void Decrypt();								//Main Decrypt Function
+vector<float> getkey(ifstream&);					//Gets Key from the File
+vector<int> MatrixMultiply(float [SIZE][SIZE], vector<int>);		//Multiplies Matricies(For both Encrypt and Decrypt)	
+vector<int> sizecheck(vector<int>);					//Checks if the Message is divisible by 3
+vector<int> fetch(ifstream&);						//Gets the Message from Text File
+void Encrypt();								//Main Encrypt Function
+void intro();								//Introduction Screen
 //TEMPLATE FOR OUTPUTTING VECTORS
 /*********************************************************************/
 
@@ -48,6 +46,7 @@ ostream & operator << (ostream &out, const vector<T> &v)
 	}
 	return out;
 }
+
 //Prints Different Colors upon call
 //example
 //cout << colorname << variable/text;
@@ -464,8 +463,9 @@ vector<int> fetch(ifstream& EncodedM)
 
 void intro()
 {
-	ShowWindow(GetConsoleWindow(), SW_MAXIMIZE);
-	PlaySound(TEXT("GetLowRemix.wav"), NULL, SND_ASYNC);
+//Each system("COLOR __") changes Foreground and Background colors
+	ShowWindow(GetConsoleWindow(), SW_MAXIMIZE);			//Maximizes the console to fit the screen
+	PlaySound(TEXT("GetLowRemix.wav"), NULL, SND_ASYNC);		//Plays Music
 	system("Color 1B");
 	Sleep(1000);
 	system("CLS");
