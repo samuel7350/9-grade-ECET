@@ -10,14 +10,10 @@ x86
 REM Choose what you want to do, 1 or 2 
 
 by (un)commenting
-cd "C:\Users\Dada\Documents\Visual 
-
-Studio 2010\Projects\Cryptography
-
-\Cryptography"
+cd "C:\Whatever Folder it's in
  msbuild.exe Cryptography.vcxproj
  cl.exe
- cl HillCypher.cpp
+ cl Encrypt.cpp
 
 echo DONE!!
 pause
