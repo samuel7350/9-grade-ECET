@@ -34,6 +34,8 @@ void intro();								//Introduction Screen
 //TEMPLATE FOR OUTPUTTING VECTORS
 /*********************************************************************/
 
+
+
 template <typename T>
 ostream & operator << (ostream &out, const vector<T> &v)
 {
@@ -47,10 +49,12 @@ ostream & operator << (ostream &out, const vector<T> &v)
 	return out;
 }
 
+
+
 //Prints Different Colors upon call
 //example
 //cout << colorname << variable/text;
-enum COLORS
+enum COLORS								//Just Color Names
 {
     	black,
 	blue,
@@ -70,107 +74,124 @@ enum COLORS
 	white
 };
 
+
+
 ostream& operator << (ostream &textcolor, const COLORS &Color)
 {
-    HANDLE out = GetStdHandle(STD_OUTPUT_HANDLE);
-    SetConsoleTextAttribute(out, Color);
-    return(textcolor);
+    HANDLE out = GetStdHandle(STD_OUTPUT_HANDLE);			//Found on Google, to be honest
+    SetConsoleTextAttribute(out, Color);				//Included in Windows.h
+    return(textcolor);							//returns the name, evertime, cout is called
+    									//changes the test color to whatevr name was called
 }
 
 /*********************************************************************/
+
+
 
 float key[SIZE][SIZE];					//Global - We Need these Keys Everywhere
 float decryptkey[3][3];
 string filename = "";					//Need this For a lot too
 stringstream overflow;					//Takes in all Overflow
+							//Will output to tell them all the unnecessary stuff they entered
 string sht;						//Does nothing
 //Main Below
 
+//*****************************************************************************************************************************************************************************
+//*****************************************************************************************************************************************************************************
+
 int main()
 { //Main
-	intro();
-	char choose;
+	intro();				//Function Call of Intro
+	char choose;				//Variable that asks for choice
 	cout << "Would you like to Encrypt or Decrypt? \nE - Encrypt\nD - Decrypt\n\t\t\t\t\t";
 	cin >> choose;
-	overflow << getline(cin, sht);
-	if(choose == 'e' || choose == 'E')
+	overflow << getline(cin, sht);		//Anything that was entered after the letter does not overflow into the next cin
+						//Instead goes into overflow
+	if(choose == 'e' || choose == 'E')	//If they chose to Encrypt
 	{
-		Encrypt();
+		Encrypt();			//Calls Encrypt
 		cout << "Would You Like to Decrypt?\n";
-		cin >> choose;
-		overflow << getline(cin, sht);
-		if(choose == 'y' || choose == 'Y')
-			Decrypt();
+		cin >> choose;			//Same Variable, Overwritten by this Cin
+		overflow << getline(cin, sht);  //Extra is overflowed into StringStream
+		if(choose == 'y' || choose == 'Y')	//If they Wanted to Decrypt
+			Decrypt();			//Call Decrypt
 	}
-	if(choose == 'd' || choose == 'D')
+	if(choose == 'd' || choose == 'D')	//If they chose to Decrypt
 	{
-		Decrypt();
+		Decrypt();			//Calls Decrypt
 		cout << "Would You Like to Encrypt?\n";
-		cin >> choose;
-		overflow << getline(cin, sht);
-		if(choose == 'y' || choose == 'Y')
-			Encrypt();
+		cin >> choose;			//Same Variable, Overwritten by this Cin
+		overflow << getline(cin, sht);  //Extra is overflowed into StringStream
+		if(choose == 'y' || choose == 'Y')	//If they wanted to Encrypt
+			Encrypt();			//Call Encrypt
 	}
+	cout << overflow;
 } //Main
 
-void Encrypt()
-{
+//*****************************************************************************************************************************************************************************
+//*****************************************************************************************************************************************************************************
+
+void Encrypt()		//Function Definition
+{ //FUNCTION (ENCRYPT) START
 	randKey(key);							//Calls the RandKey Function
-	vector<int> a = Message();
+	vector<int> a = Message();					//Calls Message, returning value is stored in a
 	remove(filename.c_str());					//Deletes the File if It Already Exists
-	ofstream Stuff = createtxt();
-	outputkey(Stuff);
-	a = MatrixMultiply(key, a);
+	ofstream Stuff = createtxt();					//Calls createtxt, stored into the ofstream object
+	outputkey(Stuff);						//Calls Outputkey, with the parameter of the Address of Stuff
+	a = MatrixMultiply(key, a);					//A is overwritten, and is multiplied by the key before doing so
 	Stuff << endl 
-		  << a 
+		  << a 							//Vector is written into the textfile, no need to iterate due to the template
 		  << endl;
-	Stuff.close();
-}
-vector<int> Message()
-{
-	vector<int> a;
-	std::string message = "";
-	while(true)
+	Stuff.close();							//Closes the File
+} //FUNCTION (ENCRYPT) END
+
+//*****************************************************************************************************************************************************************************
+//*****************************************************************************************************************************************************************************
+
+vector<int> Message()		//Function Definition
+{ //FUNCTION (GET MESSAGE) START
+	vector<int> a;			//New vector, not the same as the one in Ecrypt(), as it is in a different Scope
+	std::string message = "";	//Makes Local String called message
+	while(true)			//Infinite Loop, leave it with break
 	{
-		cin.ignore();
 		cout << "Please Enter the Message to Be Encrypted. \n";
 		getline(cin, message);				//Asks for the message they want to encrypt
-		if(!message.empty())
+		if(!message.empty())				
 			{
-				system("CLS");
+				system("CLS");			//Clears Screen
 				break;
 			}
-			else
+			else					//If theres no message, repeats from the top of the loop
 			{
 				continue;
 			}
 	}
-	char choose;
+	char choose;						//Local Char Choose
 	cout << "Would you Like to See a List of the Text Files in the Current Directory? (Y/N)";
 	cin >> choose;
-	overflow << getline(cin, sht);
+	overflow << getline(cin, sht);				//Extras stored in Overflow
 	if(choose == 'y' || choose == 'Y')
 	{
-		system("dir *.txt /a-d /b");
+		system("dir *.txt /a-d /b");			//Shows list of .txt files in Directory
 		cout << "Would you like to delete all these files?(y/n): ";
 		cin >> choose;
 		overflow << getline(cin, sht);
 		if(choose =='y' || choose == 'Y')
 		{
-			cout << "ARE YOU SURE??\n";
+			cout << "ARE YOU SURE??\n";			//Asks for confirmation
 			cin >> choose;
 			overflow << getline(cin, sht);
 			if(choose =='y' || choose == 'Y')
 			{
-				string c = "del /Q ";
-				string p = "*.txt";
-				system(c.append(p).c_str());
+				string c = "del /Q ";			}
+				string p = "*.txt";			}Deletes all txt files in directory
+				system(c.append(p).c_str());		}
 			}
 		}
 	}
-	else
+	else			//If they didnt want to see the text files
 	{
-		cout << "Would You like to Clear the Current Folder of ALL Text Files (Y/N): ";
+		cout << "Would You like to Clear the Current Folder of ALL Text Files (Y/N): ";	//Still asks for delete all in folder though
 		cin >> choose;
 		overflow << getline(cin, sht);
 		if(choose =='y' || choose == 'Y')
@@ -180,70 +201,83 @@ vector<int> Message()
 			overflow << getline(cin, sht);
 			if(choose =='y' || choose == 'Y')
 			{
-				string c = "del /Q ";
-				string p = "*.txt";
-				system(c.append(p).c_str());
+				string c = "del /Q ";			}
+				string p = "*.txt";			}Deletes all txt files in directory
+				system(c.append(p).c_str());		}
 			}
 		}
 	}
-	while(true)
+	while(true)		//Infinite Loop, Leave with breaks
 	{
-		system("CLS");
+		system("CLS");		//Clears Screen
 		cout << "Please Enter the Desired Filename(Please Exclude the .txt at the end)\n[MAX LENGTH = 128]:\n----> ";
-		getline(cin, filename);
-		filename += ".txt";
-		if(!filename.empty())
+		getline(cin, filename);		//Getline allows for spaces, instead of traditional cin >>
+		filename += ".txt";		//Adds .txt to end of string, since user was specified NOT to add .txt at end
+						//If they did, it will look like filename.txt.txt
+		if(!filename.empty())		//If the filename is not empty
 				{
-					system("CLS");
-					cout << "Your Filename is: \n" << filename << endl;
-					cout << "And your Message is: \n" << message << endl;
-					system("PAUSE");
-					break;
+					system("CLS");		//Clears Screen
+					cout << "Your Filename is: \n" << filename << endl;	//Shows User their inputted Filename
+					cout << "And your Message is: \n" << message << endl;	//Along with the Message
+					system("PAUSE");					//Pauses the Screen
+					break;							//Leaves the Loop
 				}
-				else
+				else		//If the Message is empty
 				{
-					continue;
+					continue;	//Stay in the Loop
 				}
 	}
 		
-	for (int count = 0; count < message.length(); count++)   //takes each character of the message
+	for (int count = 0; count < message.length(); count++)   
 	{
-		char y = message.at(count);
-		a.push_back(static_cast<int>(y));
+		char y = message.at(count);		//takes each character of the message		
+		a.push_back(static_cast<int>(y));	//Pushes it into a vector of Ints(using static cast)
 	}
-	a = sizecheck(a);
-	return a;
-}
-void randKey(float key[SIZE][SIZE])
-{
-	srand(time(0));
+	a = sizecheck(a);				//Calls SizeCheck , and checks size of vector<int> a
+	return a;					//Function Returns a
+}  //FUNCTION (GET MESSAGE) END
+
+//*****************************************************************************************************************************************************************************
+//*****************************************************************************************************************************************************************************
+
+void randKey(float key[SIZE][SIZE])	//Function Definition
+{ //FUNCTION (GENERATE RANDOM KEY) START
+	srand(time(0));			//"Changing" Seed, as Time is never constant
 
 	for(int i = 0; i < SIZE; i++)
 		for(int j = 0; j < SIZE; j++)
-			key[i][j] = rand() % 9 + 1;
+			key[i][j] = rand() % 9 + 1;	//Key is assigned a random value, for every "square"
 
-}
-float determinant(float key[SIZE][SIZE])
-{
+} //FUNCTION (GENERATE RANDOM KEY) END
+
+//*****************************************************************************************************************************************************************************
+//*****************************************************************************************************************************************************************************
+
+float determinant(float key[SIZE][SIZE])	//Function Definition
+{ //FUNCTION (DETERMINANT FINDER) START
 	int det = 0;
-	for(int i = 0; i < SIZE; i++)
+	for(int i = 0; i < SIZE; i++)	//This is spaced out to be easily read, pretty much hard coded for only 3x3 matricies
 		{
-		det = 
-			det + 
-				(
-				key[0][i] * 
-				(
-					key [1][(i + 1) % SIZE] * 
-					key [2][(i + 2) % SIZE] - 
-					key [1][(i + 2) % SIZE] * 
-					key [2][(i + 1) % SIZE]
-				)
-				);
+			det = 
+				det + 
+					(
+					key[0][i] * 
+					(
+						key [1][(i + 1) % SIZE] * 
+						key [2][(i + 2) % SIZE] - 
+						key [1][(i + 2) % SIZE] * 
+						key [2][(i + 1) % SIZE]
+					)
+					);
 		}
-	return det;
-}
+	return det;			//Returns det value
+} //FUNCTION (DETERMINANT FINDER) END
+
+//*****************************************************************************************************************************************************************************
+//*****************************************************************************************************************************************************************************
+
 vector<float> inverse(float k[SIZE][SIZE], float det)
-{
+{ //FUNCTION (INVERSE) START
 	vector<float> s;
 	stringstream test;
 	long double key[3][3];
@@ -291,9 +325,13 @@ vector<float> inverse(float k[SIZE][SIZE], float det)
 		cout << endl;
 	}
 	return s;
-}
+} //FUNCTION (INVERSE) END
+
+//*****************************************************************************************************************************************************************************
+//*****************************************************************************************************************************************************************************
+
 void outputkey(ofstream& Stuff)
-{	
+{ //FUNCTION (WRITE KEY TO FILE) START	
 	for(int i = 0; i < SIZE; i++)
 	{ //Outer for
 		for(int j = 0; j < SIZE; j++)
@@ -302,17 +340,25 @@ void outputkey(ofstream& Stuff)
 		} //Inner for
 	} //Outer for
 
-}
+} //FUNCTION (WRITE KEY TO FILE) END
+
+//*****************************************************************************************************************************************************************************
+//*****************************************************************************************************************************************************************************
+
 ofstream createtxt()
-{
+{ //FUNCTION (MAKE TXT FILE) START
 	//********************************************
 		ofstream Stuff;						//****			Makes The Text File
 		Stuff.open(filename.c_str(), ios::app);//*
 	//********************************************
 		return Stuff;
-}
+} //FUNCTION (MAKE TXT FILE) END
+
+//*****************************************************************************************************************************************************************************
+//*****************************************************************************************************************************************************************************
+
 void Decrypt()
-{
+{ //FUNCTION (MAIN DECRYPT) START
 	system("CLS");
 	ifstream EncodedM = openfile();
 	vector<float> filekey;
@@ -368,10 +414,13 @@ void Decrypt()
 		cout << "DONE!";
 	}
 
-}
+} //FUNCTION (MAIN DECRYPT) END
+
+//*****************************************************************************************************************************************************************************
+//*****************************************************************************************************************************************************************************
 
 ifstream openfile()
-{
+{ //FUNCTION (OPEN FILE FOR READ) START
 	string file;
 		cout << "Here is a list of all the .txt files in the Directory.\n";
 		system("dir *.txt /a-d /b");
@@ -393,10 +442,13 @@ ifstream openfile()
 	}
 
 	return EncodedM;
-}
+} //FUNCTION (OPEN FILE FOR READ) END
+
+//*****************************************************************************************************************************************************************************
+//*****************************************************************************************************************************************************************************
 
 vector<float> getkey(ifstream& EncodedM)
-{
+{ //FUNCTION (GET KEY) START
 		char c = EncodedM.get();
 		vector<float> a;
 		a.push_back(int(c) - 48);
@@ -409,11 +461,13 @@ vector<float> getkey(ifstream& EncodedM)
 		}
 		a.erase(a.end()-1, a.end());
 		return a;
-}
+} //FUNCTION (GET KEY) END
+
+//*****************************************************************************************************************************************************************************
+//*****************************************************************************************************************************************************************************
 
 vector<int> MatrixMultiply(float key[3][3], vector<int> before)
-{
-
+{ //FUNCTION (MULTIPLY MATRICES) START
 	float total = 0;
 	vector<int> after;
 
@@ -439,19 +493,25 @@ vector<int> MatrixMultiply(float key[3][3], vector<int> before)
 		before.erase(before.begin(), before.begin() + 3);
 	}
 	return after;
-}
+} //FUNCTION (MULTIPLY MATRICES) END
+
+//*****************************************************************************************************************************************************************************
+//*****************************************************************************************************************************************************************************
 
 vector<int> sizecheck(vector<int> test)
-{
+{ //FUNCTION (SIZE CHECK) START
 		if(test.size() % 3 != 0)
 			test.push_back(0);
 		if(test.size() % 3 != 0)
 			test.push_back(0);
 	return test;
-}
+} //FUNCTION (SIZE CHECK) END
+
+//*****************************************************************************************************************************************************************************
+//*****************************************************************************************************************************************************************************
 
 vector<int> fetch(ifstream& EncodedM)
-{
+{ //FUNCTION (FETCH ENCODED WORDS) START
 	int a;
 	vector<int> b;
 	while(EncodedM >> a)
@@ -459,10 +519,13 @@ vector<int> fetch(ifstream& EncodedM)
 		b.push_back(a);
 	}
 	return b;
-}
+} //FUNCTION (FETCH ENCODED WORDS) END
+
+//*****************************************************************************************************************************************************************************
+//*****************************************************************************************************************************************************************************
 
 void intro()
-{
+{ //FUNCTION (INTRO) START
 //Each system("COLOR __") changes Foreground and Background colors
 	ShowWindow(GetConsoleWindow(), SW_MAXIMIZE);			//Maximizes the console to fit the screen
 	PlaySound(TEXT("GetLowRemix.wav"), NULL, SND_ASYNC);		//Plays Music
@@ -501,4 +564,8 @@ void intro()
 	cout << lightred <<  "\t\t\t\t    Julie Pirro\n";
 	Sleep(1000);
 	system("COLOR 08");
-}
+} //FUNCTION (INTRO) END
+
+//*****************************************************************************************************************************************************************************
+//*****************************************************************************************************************************************************************************
+
