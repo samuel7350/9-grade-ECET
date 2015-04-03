@@ -176,7 +176,9 @@ namespace Testsss {
 					 progressBar1 -> Value = i;												//Moves the Progress Bar
 					 textBox1 -> Text = "We're Starting the console...";					//Accesses the Text of the Textbox
 				 }
-				 String ^ FilePath = "C:\\Users\\Abhi\\Documents\\Visual Studio 2010\\Projects\\WWWW\\WWWW\\Encrypt.exe";		
+				 String^ CoolRun = "C:\\Whatever\\MakeExe.bat"			//Change If we do One File
+				 Process::Start(CoolRun);
+				 String ^ FilePath = "C:\\Whatever\\Encrypt.exe";		
 				 Process::Start(FilePath);					//Starts the Process ^^^^^
 			 }
 	private: System::Void textBox1_TextChanged(System::Object^  sender, System::EventArgs^  e) {
@@ -201,7 +203,9 @@ private: System::Void button2_Click(System::Object^  sender, System::EventArgs^ 
 				progressBar1 -> Value = i;												//Moves the Progress Bar
 				textBox1 -> Text = "We're Starting the console...";					//Accesses the Text of the Textbox
 			}
-			String ^ FilePath = "C:\\Users\\Abhi\\Documents\\Visual Studio 2010\\Projects\\WWWW\\WWWW\\Decrypt.exe";		
+			String^ CoolRun = "C:\\Whatever\\MakeExe2.bat"			//Change If we do One File
+			Process::Start(CoolRun);
+			String ^ FilePath = "C:\\Whatever\\Decrypt.exe";		
 			Process::Start(FilePath);					//Starts the Process ^^^^^
 		 }
 };
