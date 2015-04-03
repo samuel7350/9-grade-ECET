@@ -132,7 +132,7 @@ int main()
 //*****************************************************************************************************************************************************************************
 
 void Encrypt()		//Function Definition
-{ //FUNCTION (ENCRYPT) START
+{ //FUNCTION (MAIN ENCRYPT) START
 	randKey(key);							//Calls the RandKey Function
 	vector<int> a = Message();					//Calls Message, returning value is stored in a
 	remove(filename.c_str());					//Deletes the File if It Already Exists
@@ -143,7 +143,7 @@ void Encrypt()		//Function Definition
 		  << a 							//Vector is written into the textfile, no need to iterate due to the template
 		  << endl;
 	Stuff.close();							//Closes the File
-} //FUNCTION (ENCRYPT) END
+} //FUNCTION (MAIN ENCRYPT) END
 
 //*****************************************************************************************************************************************************************************
 //*****************************************************************************************************************************************************************************
@@ -276,13 +276,13 @@ float determinant(float key[SIZE][SIZE])	//Function Definition
 //*****************************************************************************************************************************************************************************
 //*****************************************************************************************************************************************************************************
 
-vector<float> inverse(float k[SIZE][SIZE], float det)
+vector<float> inverse(float k[SIZE][SIZE], float det)	//Function Definition
 { //FUNCTION (INVERSE) START
 	vector<float> s;
-	stringstream test;
+	stringstream test;				//Can set precision of variable
 	long double key[3][3];
 	long double t[3][3] = {0};
-	for(int i = 0; i < 3; i++)
+	for(int i = 0; i < 3; i++)			//Transposes the current key
 		for(int j = 0; j < 3; j++)
 			key[i][j] = k[j][i];
 	test << setprecision(100) << (key[1][1] * key[2][2]) - (key[2][1] * key[1][2]);
@@ -314,32 +314,27 @@ vector<float> inverse(float k[SIZE][SIZE], float det)
 	test.clear();
 	for(int i = 0; i < 3; i++)
 	{
-		for(int j = 0; j < 3; j++)
+		for(int j = 0; j < 3; j++)				//Multiplies by 1/det (Since dividing by Det would be integer division)
 		{
 			test.clear();
 			test << setprecision(100) << t[i][j] * (1/det);
 			test >> t[i][j];
 			cout << t[i][j] << " ";
-			s.push_back(t[i][j]);
+			s.push_back(t[i][j]);				//Pushes back the inverse into S
 		}
 		cout << endl;
 	}
-	return s;
+	return s;							//Returns s
 } //FUNCTION (INVERSE) END
 
 //*****************************************************************************************************************************************************************************
 //*****************************************************************************************************************************************************************************
 
-void outputkey(ofstream& Stuff)
+void outputkey(ofstream& Stuff)		//Function Definition
 { //FUNCTION (WRITE KEY TO FILE) START	
 	for(int i = 0; i < SIZE; i++)
-	{ //Outer for
 		for(int j = 0; j < SIZE; j++)
-		{ //Inner for
 			Stuff << key[i][j];					//OutPuts the Matrix into the TextFile
-		} //Inner for
-	} //Outer for
-
 } //FUNCTION (WRITE KEY TO FILE) END
 
 //*****************************************************************************************************************************************************************************
@@ -347,11 +342,11 @@ void outputkey(ofstream& Stuff)
 
 ofstream createtxt()
 { //FUNCTION (MAKE TXT FILE) START
-	//********************************************
-		ofstream Stuff;						//****			Makes The Text File
-		Stuff.open(filename.c_str(), ios::app);//*
-	//********************************************
-		return Stuff;
+	//****************************************************
+		ofstream Stuff;				//****			Makes The Text File
+		Stuff.open(filename.c_str(), ios::app); //****
+	//****************************************************
+	return Stuff;	//Returns Location of Stuff
 } //FUNCTION (MAKE TXT FILE) END
 
 //*****************************************************************************************************************************************************************************
@@ -359,59 +354,61 @@ ofstream createtxt()
 
 void Decrypt()
 { //FUNCTION (MAIN DECRYPT) START
-	system("CLS");
-	ifstream EncodedM = openfile();
-	vector<float> filekey;
-	filekey = getkey(EncodedM);
-	int a = 0;
+	system("CLS");						//Clears Screen
+	ifstream EncodedM = openfile();				//Calls openfile, stored into EncodedM
+	vector<float> filekey;					
+	filekey = getkey(EncodedM);				//The Key is stored into vector filekey
+	int a = 0;						//a is a temp counter
 	for(int i = 0; i < 3; i++)
 	{
 		for(int j = 0; j < 3; j++)
 		{
-			decryptkey[i][j] = filekey.at(j + a);
+			decryptkey[i][j] = filekey.at(j + a);	//Contents of the Vector are transfered to an Array
+								//Since Function MatrixMultiply multiplies two arrays
 		}
 		a += 3;
 	}
-	float det = determinant(decryptkey);
-	filekey.empty();
-	vector<int> fromfile;
-	fromfile = fetch(EncodedM);
-	cout << fromfile;
+	float det = determinant(decryptkey);			//Calculates the Determinant, from the function determinant
+	filekey.empty();					//Clears the remaining contents of fileke(if any)
+	vector<int> fromfile;			
+	fromfile = fetch(EncodedM);				//Encoded Words are placed into vector fromfile
+	cout << fromfile;					//Outputs fromfile, FOR DEBUGGING *TAKE OUT*
 	vector<float> tempinv;
-	tempinv = inverse(decryptkey, det);
-	float inversekey[3][3];
-	int q = 0;
+	tempinv = inverse(decryptkey, det);			//Temp inverse is found using the inverse function
+	float inversekey[3][3];					
+	a = 0;							//a is again used as a counter
 	system("CLS");
 	for(int i = 0; i < 3; i++)
 	{
-		for(int j = 0; j < 3; j++)
+		for(int j = 0; j < 3; j++)			//tempinv is transfered to array
 		{
 			inversekey[i][j] = tempinv[q];
 			q++;
 		}
 	}
 	vector<int> answer;
-	answer = MatrixMultiply(inversekey, fromfile);
-	for(int i = 0; i < answer.size(); i++)
-		cout << static_cast<char>(answer[i]);
+	answer = MatrixMultiply(inversekey, fromfile);		//array is multiplied with the encoded words
+	for(int i = 0; i < answer.size(); i++)			
+		cout << static_cast<char>(answer[i]);		//answer is a vector of ints
+								//Cast while we output makes them their corresponding ASCII characters
 	cout << endl;
 	cout << "Would You Like to Store This into a .txt File?\n";
 	string choose;
 	cin >> choose;
-
-	if(choose.at(0) == 'y' || choose.at(0) == 'Y')
+	if(choose.at(0) == 'y' || choose.at(0) == 'Y')		//If they want to store the answer in a file
 	{
 		string sht;
 		string file;
-		cout << "Please Enter the Filename You would like to store it in: ";
+		cout << "Please Enter the Filename You would like to store it in(Without the ".txt" at the end: ";
 		overflow << getline(cin, sht);
 		getline(cin, file);
 		ofstream final;
 		file += ".txt";
 		final.open(file.c_str());
 		for(int i = 0; i < answer.size(); i++)
-			final << static_cast<char>(answer[i]);
-		cout << "DONE!";
+			final << static_cast<char>(answer[i]);			//Again, Cast into characdters, then placed into a File
+		cout << "DONE!\n";
+		cout << "File Stored in: " << file << endl;
 	}
 
 } //FUNCTION (MAIN DECRYPT) END
