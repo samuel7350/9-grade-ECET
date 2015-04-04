@@ -167,46 +167,48 @@ vector<int> Message()		//Function Definition
 			}
 	}
 	char choose;						//Local Char Choose
-	cout << "Would you Like to See a List of the Text Files in the Current Directory? (Y/N)";
-	cin >> choose;
-	overflow << getline(cin, sht);				//Extras stored in Overflow
-	if(choose == 'y' || choose == 'Y')
+	int result1 = MessageBox(HWND_DESKTOP, L"Would you Like to See a List of the Text Files in the Current Directory?", L"", MB_YESNO);
+	switch(result1)
 	{
-		system("dir *.txt /a-d /b");			//Shows list of .txt files in Directory
-		cout << "Would you like to delete all these files?(y/n): ";
-		cin >> choose;
-		overflow << getline(cin, sht);
-		if(choose =='y' || choose == 'Y')
+		case IDYES:
 		{
-			cout << "ARE YOU SURE??\n";			//Asks for confirmation
-			cin >> choose;
-			overflow << getline(cin, sht);
-			if(choose =='y' || choose == 'Y')
+			system("dir *.txt /a-d /b");
+			int result2 = MessageBox(HWND_DESKTOP, L"Would you like to delete all these files?", L"DELETE", MB_YESNO);
+			switch(result2)
 			{
-				string c = "del /Q ";			}
-				string p = "*.txt";			}Deletes all txt files in directory
-				system(c.append(p).c_str());		}
+				case IDYES:
+				{
+					int result = MessageBox(HWND_DESKTOP,L"Are You SURE??",L"Confirmation",MB_YESNO);
+					switch(result)
+					{
+						case IDYES:
+							string c = "del /Q ";
+							string p = "*.txt";
+							system(c.append(p).c_str());
+							break;
+					}
+				}
+			}
+			break;
+		}
+		case IDNO:
+		{
+			int result = MessageBox(HWND_DESKTOP,L"Would You like to Clear the Current Folder of ALL Text Files",L"DELETE",MB_YESNO);
+			switch(result)
+			{
+				int result = MessageBox(HWND_DESKTOP,L"Are You SURE??",L"Confirmation",MB_YESNO);
+				switch(result)
+				{
+					case IDYES:
+						string c = "del /Q ";
+						string p = "*.txt";
+						system(c.append(p).c_str());
+						break;
+				}
 			}
 		}
 	}
-	else			//If they didnt want to see the text files
-	{
-		cout << "Would You like to Clear the Current Folder of ALL Text Files (Y/N): ";	//Still asks for delete all in folder though
-		cin >> choose;
-		overflow << getline(cin, sht);
-		if(choose =='y' || choose == 'Y')
-		{
-			cout << "ARE YOU SURE??\n";
-			cin >> choose;
-			overflow << getline(cin, sht);
-			if(choose =='y' || choose == 'Y')
-			{
-				string c = "del /Q ";			}
-				string p = "*.txt";			}Deletes all txt files in directory
-				system(c.append(p).c_str());		}
-			}
-		}
-	}
+	system("pause");
 	while(true)		//Infinite Loop, Leave with breaks
 	{
 		system("CLS");		//Clears Screen
