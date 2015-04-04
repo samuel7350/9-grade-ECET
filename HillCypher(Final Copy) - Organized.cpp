@@ -178,7 +178,7 @@ vector<int> Message()		//Function Definition
 			{
 				case IDYES:
 				{
-					int result = MessageBox(HWND_DESKTOP,L"Are You SURE??",L"Confirmation",MB_YESNO);
+					int result = MessageBox(HWND_DESKTOP,L"Are You SURE??",L"Confirmation",MB_YESNO | MB_ICONWARNING);
 					switch(result)
 					{
 						case IDYES:
@@ -196,7 +196,7 @@ vector<int> Message()		//Function Definition
 			int result = MessageBox(HWND_DESKTOP,L"Would You like to Clear the Current Folder of ALL Text Files",L"DELETE",MB_YESNO);
 			switch(result)
 			{
-				int result = MessageBox(HWND_DESKTOP,L"Are You SURE??",L"Confirmation",MB_YESNO);
+				int result = MessageBox(HWND_DESKTOP,L"Are You SURE??",L"Confirmation",MB_YESNO | MB_ICONWARNING);
 				switch(result)
 				{
 					case IDYES:
