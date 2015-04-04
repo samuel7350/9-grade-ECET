@@ -285,6 +285,8 @@ vector<float> inverse(float k[SIZE][SIZE], float det)	//Function Definition
 	for(int i = 0; i < 3; i++)			//Transposes the current key
 		for(int j = 0; j < 3; j++)
 			key[i][j] = k[j][i];
+			
+	//These the Adjoints
 	test << setprecision(100) << (key[1][1] * key[2][2]) - (key[2][1] * key[1][2]);
 	test >> t[0][0];
 	test.clear();
@@ -312,6 +314,7 @@ vector<float> inverse(float k[SIZE][SIZE], float det)	//Function Definition
 	test << setprecision(100) << (key[0][0] * key[1][1]) - (key[1][0] * key[0][1]);
 	test >> t[2][2];
 	test.clear();
+	//Here we multiply it by the reciprical of the determinant
 	for(int i = 0; i < 3; i++)
 	{
 		for(int j = 0; j < 3; j++)				//Multiplies by 1/det (Since dividing by Det would be integer division)
@@ -334,7 +337,7 @@ void outputkey(ofstream& Stuff)		//Function Definition
 { //FUNCTION (WRITE KEY TO FILE) START	
 	for(int i = 0; i < SIZE; i++)
 		for(int j = 0; j < SIZE; j++)
-			Stuff << key[i][j];					//OutPuts the Matrix into the TextFile
+			Stuff << key[i][j];					//Outputs the Matrix into the Text File
 } //FUNCTION (WRITE KEY TO FILE) END
 
 //*****************************************************************************************************************************************************************************
