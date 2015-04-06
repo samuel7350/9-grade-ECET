@@ -349,3 +349,34 @@ for (int i = 0; i < 4; i++)
 cout << endl;
 }
 
+//ARRAYS
+//-----------------------------------------------------------------------------------------------//
+
+int main()
+{
+/*7.11 (Bubble Sort) In the bubble sort algorithm, smaller values gradually "bubble" their
+way upward to the top of the array like air bubbles rising in water, while the larger
+values sink to the bottom. The bubble sort makes several passes through the array.
+On each pass, successive pairs of elements are compared. If a pair is in increasing
+order (or the values are identical), we leave the values as they are. If a pair is in
+decreasing order, their values are swapped in the array. Write a program that sorts
+an array of 10 integers using bubble sort. */
+
+	int myArray[10] = { 0 };
+
+	for (int i = 0; i < 10; i++){
+		cin >> myArray[i];
+	}
+
+	for (int i = 0; i < (10 - 1); i++){
+		for (int j = 0; j < (10 - 1); j++){
+			if (myArray[j] > myArray[j + 1])
+				swap(myArray[j], myArray[j + 1]);
+		}
+	}
+	
+	for (int x = 0; x < 10; x++)
+		cout << myArray[x] << endl;
+
+}
+
