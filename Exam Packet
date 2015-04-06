@@ -4,6 +4,9 @@
 #include <ctime>
 using namespace std;
 
+//FUNCTIONS PACKET
+//---------------------------------------------------------------------------------------//
+
 /*6.38 (Guess the Number Game) Write a program that plays the game of "guess the number"
 as follows: Your program chooses the number to be guessed by selecting an integer at
 random in the range 1 to 1000. The program then displays the following:
@@ -131,6 +134,9 @@ int perfect(int x)
 		return 0;
 }
 
+//CONTROL P1
+//-----------------------------------------------------------------------------------------------//
+
 /*4.26 A palindrome is a number or a text phrase that reads the same backwards as
 forwards. For example, each of the following five-digit integers is a palindrome:
 12321, 55555, 45554 and 11611. Write a program that reads in a five-digit integer
@@ -234,4 +240,112 @@ be interpreted as 2 * 100 + 3 * 10 + 4 * 1. The decimal equivalent of binary 110
 	} while (again == 'Y' || again == 'y');
 }
 
+int main()
+{
+/*4.34 (Cryptography) A company wants to transmit data over the telephone, but is
+concerned that its phones could be tapped. All of the data are transmitted as fourdigit
+integers. The company has asked you to write a program that encrypts the data
+so that it can be transmitted more securely. Your program should read a four-digit
+integer and encrypt it as follows: Replace each digit by (the sum of that digit plus 7)
+modulus 10. Then, swap the first digit with the third, swap the second digit with the
+fourth and print the encrypted integer. Write a separate program that inputs an
+encrypted fourdigit integer and decrypts it to form the original number. */
+
+//Encryption
+//**********//
+int message = 0;
+int hold = 0;
+int x = 0;
+int myarray[4] = { 0 };
+int encrypted[4] = { 0 };
+int k = 3;
+
+cout << "Your message: ";
+cin >> message;
+hold = message;
+
+for (int i = 0; i < 4; i++)
+{
+	x = hold % 10;
+	myarray[i] = x;
+	hold = hold / 10;
+}
+
+for (int i = 0; i < 4; i++)
+{
+	x = myarray[i];
+	x = x + 7;
+	x = x % 10;
+	encrypted[k] = x;
+	k--;
+}
+
+int swap = encrypted[0];
+encrypted[0] = encrypted[2];
+encrypted[2] = swap;
+
+swap = encrypted[1];
+encrypted[1] = encrypted[3];
+encrypted[3] = swap;
+
+cout << "The encrypted message: ";
+for (int i = 0; i < 4; i++)
+{
+	cout << encrypted[i];
+}
+hold = message;
+
+for (int i = 0; i < 4; i++)
+{
+	x = hold % 10;
+	myarray[i] = x;
+	hold = hold / 10;
+}
+
+cout << endl;
+
+//Decryption
+//**********//
+int dmessage;
+int decrypted[4] = { 0 };
+int recrypted[4] = { 0 };
+cout << endl << "What is the encrypted message?: ";
+cin >> dmessage;
+
+hold = dmessage;
+
+int j = 3;
+for (int i = 0; i < 4; i++)
+{
+	x = hold % 10;
+	decrypted[j] = x;
+	hold = hold / 10;
+	j--;
+}
+
+swap = decrypted[0];
+decrypted[0] = decrypted[2];
+decrypted[2] = swap;
+
+swap = decrypted[1];
+decrypted[1] = decrypted[3];
+decrypted[3] = swap;
+
+for (int i = 0; i < 4; i++)
+{
+	x = decrypted[i];
+	x = x + 3;
+	if (x > 9)
+		x = x - 10;
+	recrypted[i] = x;
+}
+
+cout << "The original message was: ";
+
+for (int i = 0; i < 4; i++)
+{
+	cout << recrypted[i];
+}
+cout << endl;
+}
 
