@@ -1,4 +1,10 @@
-/*(Guess the Number Game) Write a program that plays the game of "guess the number"
+#include <iostream>
+#include <iomanip>
+#include <cstdlib>
+#include <ctime>
+using namespace std;
+
+/*6.38 (Guess the Number Game) Write a program that plays the game of "guess the number"
 as follows: Your program chooses the number to be guessed by selecting an integer at
 random in the range 1 to 1000. The program then displays the following:
 
@@ -17,11 +23,7 @@ If the player's guess is incorrect, your program should loop until the player fi
 the number right. Your program should keep telling the player Too high or Too low to
 help the player "zero in" on the correct answer.
 */
-#include <iostream>
-#include <iomanip>
-#include <cstdlib>
-#include <ctime>
-using namespace std;
+
 
 int main()
 {
@@ -54,7 +56,7 @@ int main()
 }
 
 
-/*Write a program that simulates coin tossing. For each toss of the coin, the program
+/*6.34 Write a program that simulates coin tossing. For each toss of the coin, the program
 	should print Heads or Tails. Let the program toss the coin 100 times and count the
 	number of times each side of the coin appears. Print the results. The program should call
 	a separate function flip that takes no arguments and returns 0 for tails and 1 for heads.
@@ -85,10 +87,7 @@ int flip()
 
 }
 
-int perfect(int x);
-int main()
-{
- /*6.29 (Perfect Numbers) An integer is said to be a perfect number if the sum of its factors,
+/*6.29 (Perfect Numbers) An integer is said to be a perfect number if the sum of its factors,
 including 1 (but not the number itself), is equal to the number. For example, 6 is a
 perfect number, because 6 = 1 + 2 + 3. Write a function perfect that determines
 whether parameter number is a perfect number. Use this function in a program that
@@ -96,6 +95,9 @@ determines and prints all the perfect numbers between 1 and 1000. Print the fact
 each perfect number to confirm that the number is indeed perfect. Challenge the power
 of your computer by testing numbers much larger than 1000.  */
 
+int perfect(int x);
+int main()
+{
 	int x = 2;
 	for (x; x <= 10000; x++)
 	{
@@ -127,5 +129,109 @@ int perfect(int x)
 		return 1;
 	else
 		return 0;
-
 }
+
+/*4.26 A palindrome is a number or a text phrase that reads the same backwards as
+forwards. For example, each of the following five-digit integers is a palindrome:
+12321, 55555, 45554 and 11611. Write a program that reads in a five-digit integer
+and determines whether it is a palindrome. [Hint: Use the division and modulus
+operators to separate the number into its individual digits.] */
+
+int main()
+{
+	char again;
+	do
+	{
+	int pal;
+	int og;
+	int myarray[5] = { 0 };
+	bool ans = true;
+	
+	
+		cout << "Test: ";
+		cin >> og;
+		pal = og;
+		int hold = 0;
+
+		for (int i = 0; i < 5; i++)
+		{
+			hold = pal % 10;
+			myarray[i] = hold;
+			pal = pal / 10;
+		}
+
+		cout << "** debug ** ";
+		for (int i = 0; i < 5; i++)
+		{
+			cout << myarray[i];
+		}
+
+		cout << endl;
+
+		if (myarray[0] == myarray[4])
+		{
+			if (myarray[1] == myarray[3])
+				ans = true;
+			else
+				ans = false;
+		}
+		else
+			ans = false;
+
+		if (ans == true)
+			cout << og << " is a palindrome." << endl;
+		else
+			cout << og << " is not a palindrome." << endl;
+		cout << "Test again? (Y / N)" << endl;
+		cin >> again;
+	} while (again == 'Y' || again == 'y');
+}
+
+int main()
+{
+/*4.27 Input an integer containing only 0s and 1s (i.e., a "binary" integer) and print its
+decimal equivalent. Use the modulus and division operators to pick off the "binary"
+number's digits one at a time from right to left. Much as in the decimal number
+system, where the rightmost digit has a positional value of 1, the next digit left has
+a positional value of 10, then 100, then 1000, and so on, in the binary number
+system the rightmost digit has a positional value of 1, the next digit left has a
+positional value of 2, then 4, then 8, and so on. Thus the decimal number 234 can
+be interpreted as 2 * 100 + 3 * 10 + 4 * 1. The decimal equivalent of binary 1101 is
+1 * 1 + 0 * 2 + 1 * 4 + 1 * 8 or 1 + 0 + 4 + 8, or 13.*/
+
+	char again;
+
+	do
+	{
+		int binary = 0;
+		int hold = 0;
+		int num = 0;
+		int x = 0;
+		int total = 0;
+		int power = 1;
+
+		cout << "Binary number: ";
+		cin >> binary;
+		hold = binary;
+
+		while (hold != 0)
+		{
+			hold = hold / 10;
+			num += 1;
+		}
+
+		for (int i = 0; i < num; i++)
+		{
+			power = pow(2, i);
+			x = binary % 10;
+			total = total + (x * power);
+			binary /= 10;
+		}
+		cout << "Decimal equivalent: " << total << endl << endl;
+		cout << "Find the decimal equivalent of another number? (Y / N)" << endl;
+		cin >> again;
+		cout << endl;
+	} while (again == 'Y' || again == 'y');
+}
+
+
