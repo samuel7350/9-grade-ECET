@@ -404,7 +404,7 @@ void Decrypt()
 	{
 		string sht;
 		string file;
-		cout << "Please Enter the Filename You would like to store it in(Without the ".txt" at the end: ";
+		cout << "Please Enter the Filename You would like to store it in(Without the \".txt\" at the end: ";
 		overflow << getline(cin, sht);
 		getline(cin, file);
 		ofstream final;

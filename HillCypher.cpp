@@ -185,12 +185,12 @@ void MatrixMultiplication() //i need the code for the conversion of the message
 
 void Decrypt()
 {
-	char delete;
+	char delet;
 	cout << "\nThis is a list of all txt files in the directory\n";
 	system("dir *.txt /a-d /b");
-	cout << "Would you like to delete all files in the current folder?"
-	cin >> delete;
-	if(delete =='y' || delete == 'Y')
+	cout << "Would you like to delete all files in the current folder?";
+	cin >> delet;
+	if(toupper(delet) == 'Y')
 	{
 		string c = "del /Q ";
 		string p = "*.txt";
