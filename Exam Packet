@@ -380,3 +380,52 @@ an array of 10 integers using bubble sort. */
 
 }
 
+int main()
+{
+/*7.15 Use a one-dimensional array to solve the following problem. Read in 20 numbers,
+each of which is between 10 and 100, inclusive. As each number is read, validate it
+and store it in the array only if it is not a duplicate of a number already read. After
+reading all the values, display only the unique values that the user entered. Provide
+for the "worst case" in which all 20 numbers are different. Use the smallest possible
+array to solve this problem. */
+
+	int myarray[20] = { 0 };
+	int maybe;
+	bool ans = true;
+	int k = 0;
+
+	for (int x = 0; x < 20; x++)
+	{
+		cin >> maybe;
+		if (maybe >= 10 && maybe <= 100)
+		{
+			for (int i = 0; i < 20; i++)
+			{
+				if (maybe != myarray[i])
+					ans = true;
+				else
+				{
+					ans = false;
+					break;
+				}
+
+			}
+		}
+		else
+			ans = false;
+		
+		if (ans == true)
+		{
+			myarray[k] = maybe;
+			k++;
+		}
+	}
+
+	for (int x = 0; x < 20; x++)
+	{
+		if (myarray[x] != 0)
+			cout << myarray[x] << endl;
+	}
+
+}
+
