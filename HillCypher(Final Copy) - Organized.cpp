@@ -31,6 +31,7 @@ vector<int> sizecheck(vector<int>);					//Checks if the Message is divisible by 
 vector<int> fetch(ifstream&);						//Gets the Message from Text File
 void Encrypt();								//Main Encrypt Function
 void intro();								//Introduction Screen
+int checkvalid(string);
 //TEMPLATE FOR OUTPUTTING VECTORS
 /*********************************************************************/
 
@@ -214,6 +215,21 @@ vector<int> Message()		//Function Definition
 		system("CLS");		//Clears Screen
 		cout << "Please Enter the Desired Filename(Please Exclude the .txt at the end)\n[MAX LENGTH = 128]:\n----> ";
 		getline(cin, filename);		//Getline allows for spaces, instead of traditional cin >>
+		
+		if(!checkvalid(filename))
+		{
+			for(int x=0; x<5; x++)
+			{
+				Sleep(250);
+				cout << lightblue << "\rTHAT IS NOT VALID";
+				Sleep(250);
+				cout << red << "\rTHAT IS NOT VALID";
+			}
+			Sleep(1000);
+			
+			continue;
+		}
+
 		filename += ".txt";		//Adds .txt to end of string, since user was specified NOT to add .txt at end
 						//If they did, it will look like filename.txt.txt
 		if(!filename.empty())		//If the filename is not empty
@@ -570,4 +586,18 @@ void intro()
 
 //*****************************************************************************************************************************************************************************
 //*****************************************************************************************************************************************************************************
+
+
+
+int checkvalid(string filename)
+{
+		for(int i = 0 ; i < filename.length(); i++)
+		{
+			if(filename.at(i) == '\\' || filename.at(i) == '/' || filename.at(i) == '*' || filename.at(i) == '?' || filename.at(i) == '"' || filename.at(i) == '<' || filename.at(i) == '>' || filename.at(i) == '|')
+			{
+				return 0;
+			}
+	}
+		return 1;
+}
 
