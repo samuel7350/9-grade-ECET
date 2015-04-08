@@ -106,6 +106,7 @@ int main()
 	char choose;				//Variable that asks for choice
 	while (true)
 	{
+		cout << "Press CTRL + C at any time to exit the program.\n";
 		cout << "Would you like to Encrypt or Decrypt? \nE - Encrypt\nD - Decrypt\n\t\t\t\t\t";
 		cin >> choose;
 		getline(cin, sht);		//Anything that was entered after the letter does not overflow into the next cin
