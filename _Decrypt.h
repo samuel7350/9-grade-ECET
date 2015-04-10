@@ -52,8 +52,8 @@ ifstream openfile()
 		cout << "Pick a directory (Ex. C:\\Users\\Me\\Cplusplus\\ <--- Dont forget last \\\nPress Enter to Continue with the Same Directory\n----> ";
 		string directory;
 		getline(cin, directory);
-		struct stat st;
-		if (stat(directory.c_str(), &st) == 0)
+		struct stat dirtest;
+		if (stat(directory.c_str(), &dirtest) == 0)
 		{
 			_chdir(directory.c_str());
 			cout << "Here is a list of all the .txt files in the Directory.\n";
@@ -63,7 +63,6 @@ ifstream openfile()
 				Sleep(1500);
 				system("CLS");
 				continue;
-
 			}
 			break;
 		}
@@ -71,6 +70,14 @@ ifstream openfile()
 		{
 			if(directory.length() == 0)
 			{
+				cout << "Here is a list of all the .txt files in the Directory.\n";
+				if(system("dir *.txt /b"))
+				{
+					cout << "\nThis Directory has no Text Files Available,\nPick a different directory.\n";
+					Sleep(1500);
+					system("CLS");
+					continue;
+				}
 				break;
 			}
 			for (int x = 0; x < 5; x++)
@@ -116,7 +123,12 @@ ifstream openfile()
 			continue;
 		}
 	}	
-
+	struct stat filestats;
+	stat(file.c_str(), &filestats);
+	printf("Last status change:       %s\n", ctime(&filestats.st_ctime));
+    printf("Last file access:         %s\n", ctime(&filestats.st_atime));
+    printf("Last file modification:   %s\n", ctime(&filestats.st_mtime));
+	system("PAUSE");
 	return EncodedM;
 } //FUNCTION (OPEN FILE FOR READ) END
 
