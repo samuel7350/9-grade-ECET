@@ -15,11 +15,12 @@
 #include <Windows.h>
 #include <direct.h>
 #include "Misc.h"
+#include <sys/stat.h>
 #pragma comment(lib, "winmm.lib")
 #define SIZE 3
 using namespace std;
 
-
+string file;
 float determinant(float key[SIZE][SIZE])	//Function Definition
 { //FUNCTION (DETERMINANT FINDER) START
 	int det = 0;
@@ -46,13 +47,44 @@ float determinant(float key[SIZE][SIZE])	//Function Definition
 
 ifstream openfile()
 { //FUNCTION (OPEN FILE FOR READ) START
-	string file;
-	cout << "Pick a directory (Ex. C:\\Users\\Me\\Cplusplus\\ <--- Dont forget last \\\nPress Enter to Continue with the Same Directory\n----> ";
-	string directory;
-	getline(cin, directory);
-	cout << "Here is a list of all the .txt files in the Directory.\n";
-	_chdir(directory.c_str());
-	system("dir *.txt /a-d /b");
+	while(true)
+	{
+		cout << "Pick a directory (Ex. C:\\Users\\Me\\Cplusplus\\ <--- Dont forget last \\\nPress Enter to Continue with the Same Directory\n----> ";
+		string directory;
+		getline(cin, directory);
+		struct stat st;
+		if (stat(directory.c_str(), &st) == 0)
+		{
+			_chdir(directory.c_str());
+			cout << "Here is a list of all the .txt files in the Directory.\n";
+			if(system("dir *.txt /b"))
+			{
+				cout << "\nThis Directory has no Text Files Available,\nPick a different directory.\n";
+				Sleep(1500);
+				system("CLS");
+				continue;
+
+			}
+			break;
+		}
+		else
+		{
+			if(directory.length() == 0)
+			{
+				break;
+			}
+			for (int x = 0; x < 5; x++)
+			{
+				Sleep(250);
+				cout << lightblue << "\rPLEASE ENTER A VALID DIRECTORY!!";
+				Sleep(250);
+				cout << lightred << "\rPLEASE ENTER A VALID DIRECTORY!!";
+			}
+			system("CLS");
+			system("COLOR 30");
+			continue;
+		}
+	}
 	cout << "\n";
 	ifstream EncodedM;
 	cout << "Please Enter the FileName of your Encoded Text: ";
@@ -83,7 +115,7 @@ ifstream openfile()
 			cout << "\n";
 			continue;
 		}
-	}
+	}	
 
 	return EncodedM;
 } //FUNCTION (OPEN FILE FOR READ) END
@@ -233,25 +265,33 @@ void Decrypt()
 		cout << static_cast<char>(answer[i]);		//answer is a vector of ints
 	//Cast while we output makes them their corresponding ASCII characters
 	cout << endl;
-	cout << "Would You Like to Store This into a .txt File?\n";
-	string choose;
-	cin >> choose;
-	if (choose.at(0) == 'y' || choose.at(0) == 'Y')		//If they want to store the answer in a file
+	int result1 = MessageBox(HWND_DESKTOP, L"DELETE ALL TRACES!!", L"", MB_YESNO);
+	switch (result1)
 	{
-		string sht;
-		string file;
-		cout << "Please Enter the Filename You would like to store it in(Without the \".txt\" at the end: ";
-		getline(cin, sht);
-		getline(cin, file);
-		ofstream final;
-		file += ".txt";
-		final.open(file.c_str());
-		for (int i = 0; i < answer.size(); i++)
-			final << static_cast<char>(answer[i]);			//Again, Cast into characdters, then placed into a File
-		cout << "DONE!\n";
-		cout << "File Stored in: " << file << endl;
+		case IDYES:
+		{
+			remove(file.c_str());
+		}
 	}
-
+	result1 = MessageBox(HWND_DESKTOP, L"Would You Like to Store This into a .txt File?", L"Text Files?", MB_YESNO);
+	switch (result1)
+	{
+		case IDYES:
+		{
+			string sht;
+			string file;
+			cout << "Please Enter the Filename You would like to store it in(Without the \".txt\" at the end: ";
+			getline(cin, sht);
+			getline(cin, file);
+			ofstream final;
+			file += ".txt";
+			final.open(file.c_str());
+			for (int i = 0; i < answer.size(); i++)
+				final << static_cast<char>(answer[i]);			//Again, Cast into characdters, then placed into a File
+			cout << "DONE!\n";
+			cout << "File Stored in: " << file << endl;
+		}
+	}
 } //FUNCTION (MAIN DECRYPT) END
 
 //*****************************************************************************************************************************************************************************
