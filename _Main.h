@@ -23,7 +23,9 @@
 using namespace std;
 
 
-#define MAIN() 	do{\
+#define MAIN() 	int main()\
+	{\
+	do{\
 	\
 	intro();			\
 	char choose;		\
@@ -74,11 +76,14 @@ using namespace std;
 		}\
 	}\
 	cout << "\t\t\tThank You For Using this program!\n";\
-}while(0)\
+}while(0);\
+}\
 
 
 /*
 //COMMENTS---------------------------------------------------------------------------------------------------------------------------
+//int main
+//{
 //intro();				//Function Call of Intro
 	//char choose;				//Variable that asks for choice
 	//while (true)
@@ -128,7 +133,7 @@ using namespace std;
 	//	}
 	//}
 	//cout << "\t\t\tThank You For Using this program!\n";
-
+	//}
 
 */
 
