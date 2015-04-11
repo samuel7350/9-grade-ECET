@@ -102,7 +102,7 @@ void intro()
 	Sleep(500);
 
 
-
+	string name="Abhishek  Patel";
 
 
 
@@ -112,13 +112,33 @@ void intro()
 	cout << "\n\n\n\n\n\n\t\t\t\tThe Matrix Machine\n";
 	Sleep(500);
 	system("COLOR A7");
-	cout << lightmagenta << "\t\t\t\t  Abhishek  Patel\n";
+	cout << lightmagenta << "\t\t\t\t  ";
+	for(int x=0; x<name.size(); x++)
+	{
+	cout << name.at(x);
+	Sleep(250);
+	}
+		cout << "\n";
 	Sleep(500);
 	system("COLOR FA");
-	cout << white << "\t\t\t\t   Samuel Carlos\n";
+	cout << white << "\t\t\t\t   ";
+	name="Samuel Carlos";
+	for(int x=0; x<name.size(); x++)
+	{
+	cout << name.at(x);
+	Sleep(250);
+	}
+		cout << "\n";
 	Sleep(500);
 	system("COLOR B3");
-	cout << lightred << "\t\t\t\t    Julie Pirro\n";
+	cout << lightred << "\t\t\t\t    ";
+	name="Julie Pirro";
+	for(int x=0; x<name.size(); x++)
+	{
+	cout << name.at(x);
+	Sleep(250);
+	}
+		cout << "\n";
 	Sleep(500);
 	system("COLOR 30");
 } //FUNCTION (INTRO) END
