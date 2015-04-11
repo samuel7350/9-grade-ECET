@@ -160,7 +160,8 @@ int checkvalid(string filename)		//Makes sure the filename is valid (does not ha
 			filename.at(i) == '"' || 
 			filename.at(i) == '<' || 
 			filename.at(i) == '>' || 
-			filename.at(i) == '|'
+			filename.at(i) == '|' ||
+			filename.size() > 128
 			)
 		{
 			return 0;
@@ -203,7 +204,9 @@ vector<int> MatrixMultiply(float key[3][3], vector<int> before)
 
 void displaytxtfiles()
 {
-	system("dir *.txt /b");
+	
+	system("dir *.txt /b /o:-D");
+	//credit to http://ss64.com/nt/dir.html for explanation of parameters
 	return;
 
 }
