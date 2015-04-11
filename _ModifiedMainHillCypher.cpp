@@ -12,7 +12,8 @@
 #include <Windows.h>
 #include <direct.h>
 #include "C:\Users\Sam\Documents\GitHub\9-grade-ECET\_Misc.h"
-#include "C:\Users\Sam\Documents\GitHub\9-grade-ECET\_Encrypt.h"
+//#include "C:\Users\Sam\Documents\GitHub\9-grade-ECET\_Encrypt.h"
+#include "C:\Users\Sam\Documents\GitHub\9-grade-ECET\_Encrypt v2.h"
 #include "C:\Users\Sam\Documents\GitHub\9-grade-ECET\_Decrypt.h"
 #pragma comment(lib, "winmm.lib")
 #define SIZE 3
@@ -53,6 +54,8 @@ int checkvalid(string);
 
 int main()
 { //Main
+	
+	//SHOW_FILES();
 	intro();				//Function Call of Intro
 	char choose;				//Variable that asks for choice
 	while (true)

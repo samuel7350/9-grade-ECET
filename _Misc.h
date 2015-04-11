@@ -17,6 +17,11 @@
 #define SIZE 3
 using namespace std;
 
+
+#define SHOW_FILES() system("dir *.txt /b /o:-D")
+
+
+
 template <typename T>
 ostream & operator << (ostream &out, const vector<T> &v)
 {
