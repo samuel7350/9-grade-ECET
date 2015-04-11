@@ -195,6 +195,7 @@ void Encrypt()		//Function Definition
 { //FUNCTION (MAIN ENCRYPT) START
 	randKey(key);							//Calls the RandKey Function
 	vector<int> a = Message();					//Calls Message, returning value is stored in a
+
 	remove(filename.c_str());					//Deletes the File if It Already Exists
 	ofstream Stuff = createtxt();					//Calls createtxt, stored into the ofstream object
 	outputkey(Stuff);						//Calls Outputkey, with the parameter of the Address of Stuff
@@ -218,7 +219,7 @@ void Encrypt()		//Function Definition
 char betterMessage()		//Function Definition
 { //FUNCTION (GET MESSAGE) START
 
-
+	
 
 
 
@@ -243,14 +244,12 @@ char betterMessage()		//Function Definition
 			exit(EXIT_FAILURE);
 		}
 
-			if(x=='\n')
+		if(x=='\n')
 		{
 			*(str+size)='\0';
 			break;
 		}
-
-
-
+		*(str+size)=x;
 
 	}
 	

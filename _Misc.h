@@ -64,6 +64,11 @@ enum COLORS								//Just Color Names
 	yellow,
 	white
 };
+/*********************************************************************/
+//Prints Different Colors upon call
+//example
+//cout << colorname << variable/text;
+/*********************************************************************/
 
 
 
