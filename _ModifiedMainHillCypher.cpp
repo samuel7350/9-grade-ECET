@@ -19,6 +19,71 @@
 #define SIZE 3
 using namespace std;
 
+
+
+
+#define MAIN() {	\
+	\
+	intro();			\
+	char choose;		\
+	while (true)\
+	{\
+		cout << "Press CTRL + C at any time to exit the program.\n";\
+		cout << "Would you like to Encrypt or Decrypt? \nE - Encrypt\nD - Decrypt\n\n";\
+		cin >> choose;\
+		getline(cin, sht);\
+		\
+		if (choose == 'e' || choose == 'E')\
+		{\
+			system("CLS");\
+			Encrypt();		\
+			int result1 = MessageBox(HWND_DESKTOP, L"Would you Like to Decrypt?", L"Decrypt?", MB_YESNO);\
+			switch (result1)\
+			{\
+				case IDYES:\
+				{\
+					system("CLS");\
+					Decrypt();		\
+					break;\
+				}\
+			}\
+			break;\
+		}\
+		if (choose == 'd' || choose == 'D')\
+		{\
+			system("CLS");\
+			Decrypt();		\
+			int result1 = MessageBox(HWND_DESKTOP, L"Would you Like to Encrypt?", L"Encrypt?", MB_YESNO);\
+			switch (result1)\
+			{\
+				case IDYES:\
+				{\
+					system("CLS");\
+					Encrypt();		\
+					break;\
+				}\
+			}\
+			break;\
+		}\
+		else\
+		{\
+			system("CLS");\
+			cout << "PLEASE SELECT A VALID OPTION!!\n";\
+			continue;\
+		}\
+	}\
+	cout << "\t\t\tThank You For Using this program!\n";\
+}
+
+
+
+
+
+
+
+
+
+
 /*
 *********************************************************************************************************************************************
 */
@@ -39,6 +104,14 @@ void intro();														//Introduction Screen
 int checkvalid(string);
 
 
+
+
+
+
+
+
+
+
 //TEMPLATE FOR OUTPUTTING VECTORS
 /*********************************************************************/
 
@@ -54,57 +127,57 @@ int checkvalid(string);
 
 int main()
 { //Main
-	
-	//SHOW_FILES();
-	intro();				//Function Call of Intro
-	char choose;				//Variable that asks for choice
-	while (true)
-	{
-		cout << "Press CTRL + C at any time to exit the program.\n";
-		cout << "Would you like to Encrypt or Decrypt? \nE - Encrypt\nD - Decrypt\n\n";
-		cin >> choose;
-		getline(cin, sht);		//Anything that was entered after the letter does not overflow into the next cin
-		//Instead goes into overflow
-		if (choose == 'e' || choose == 'E')	//If they chose to Encrypt
-		{
-			system("CLS");
-			Encrypt();			//Calls Encrypt
-			int result1 = MessageBox(HWND_DESKTOP, L"Would you Like to Decrypt?", L"Decrypt?", MB_YESNO);
-			switch (result1)
-			{
-				case IDYES:
-				{
-					system("CLS");
-					Decrypt();			//Call Decrypt
-					break;
-				}
-			}
-			break;
-		}
-		if (choose == 'd' || choose == 'D')	//If they chose to Decrypt
-		{
-			system("CLS");
-			Decrypt();			//Calls Decrypt
-			int result1 = MessageBox(HWND_DESKTOP, L"Would you Like to Encrypt?", L"Encrypt?", MB_YESNO);
-			switch (result1)
-			{
-				case IDYES:
-				{
-					system("CLS");
-					Encrypt();			//Call Decrypt
-					break;
-				}
-			}
-			break;
-		}
-		else
-		{
-			system("CLS");
-			cout << "PLEASE SELECT A VALID OPTION!!\n";
-			continue;
-		}
-	}
-	cout << "\t\t\tThank You For Using this program!\n";
+	MAIN()
+	////SHOW_FILES();
+	//intro();				//Function Call of Intro
+	//char choose;				//Variable that asks for choice
+	//while (true)
+	//{
+	//	cout << "Press CTRL + C at any time to exit the program.\n";
+	//	cout << "Would you like to Encrypt or Decrypt? \nE - Encrypt\nD - Decrypt\n\n";
+	//	cin >> choose;
+	//	getline(cin, sht);		//Anything that was entered after the letter does not overflow into the next cin
+	//	//Instead goes into overflow
+	//	if (choose == 'e' || choose == 'E')	//If they chose to Encrypt
+	//	{
+	//		system("CLS");
+	//		Encrypt();			//Calls Encrypt
+	//		int result1 = MessageBox(HWND_DESKTOP, L"Would you Like to Decrypt?", L"Decrypt?", MB_YESNO);
+	//		switch (result1)
+	//		{
+	//			case IDYES:
+	//			{
+	//				system("CLS");
+	//				Decrypt();			//Call Decrypt
+	//				break;
+	//			}
+	//		}
+	//		break;
+	//	}
+	//	if (choose == 'd' || choose == 'D')	//If they chose to Decrypt
+	//	{
+	//		system("CLS");
+	//		Decrypt();			//Calls Decrypt
+	//		int result1 = MessageBox(HWND_DESKTOP, L"Would you Like to Encrypt?", L"Encrypt?", MB_YESNO);
+	//		switch (result1)
+	//		{
+	//			case IDYES:
+	//			{
+	//				system("CLS");
+	//				Encrypt();			//Call Decrypt
+	//				break;
+	//			}
+	//		}
+	//		break;
+	//	}
+	//	else
+	//	{
+	//		system("CLS");
+	//		cout << "PLEASE SELECT A VALID OPTION!!\n";
+	//		continue;
+	//	}
+	//}
+	//cout << "\t\t\tThank You For Using this program!\n";
 } //Main
 
 //*****************************************************************************************************************************************************************************
