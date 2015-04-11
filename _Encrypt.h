@@ -113,7 +113,9 @@ vector<int> Message()		//Function Definition
 			continue;
 		}
 		string directory;
+		
 		filename += ".txt";		//Adds .txt to end of string, since user was specified NOT to add .txt at end
+		
 		int result = MessageBox(HWND_DESKTOP, L"Would you like to pick a certain directory?", L"Confirmation", MB_YESNO | MB_ICONWARNING);
 			switch (result)
 			{

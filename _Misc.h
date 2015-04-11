@@ -205,7 +205,7 @@ vector<int> MatrixMultiply(float key[3][3], vector<int> before)
 void displaytxtfiles()
 {
 	
-	system("dir *.txt /b /o:-D");
+	system("dir *.txt /b /o:-D");// sorts by date
 	//credit to http://ss64.com/nt/dir.html for explanation of parameters
 	return;
 
