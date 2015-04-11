@@ -14,7 +14,8 @@
 #include <math.h>
 #include <Windows.h>
 #include <direct.h>
-#include "Misc.h"
+//#include "Misc.h"
+#include "C:\Users\Sam\Documents\GitHub\9-grade-ECET\_Misc.h"
 #pragma comment(lib, "winmm.lib")
 #define SIZE 3
 using namespace std;
@@ -53,7 +54,7 @@ vector<int> Message()		//Function Definition
 	{
 	case IDYES:
 	{
-		system("dir *.txt /a-d /b");
+		displaytxtfiles();
 		int result2 = MessageBox(HWND_DESKTOP, L"Would you like to delete all these files?", L"DELETE", MB_YESNO);
 		switch (result2)
 		{
@@ -183,7 +184,7 @@ ofstream createtxt()
 { //FUNCTION (MAKE TXT FILE) START
 	//****************************************************
 	ofstream Stuff;				//****			Makes The Text File
-	Stuff.open(filename.c_str(), ios::app); //****
+	Stuff.open(filename.c_str()); //****
 	//****************************************************
 	return Stuff;	//Returns Location of Stuff
 } //FUNCTION (MAKE TXT FILE) END

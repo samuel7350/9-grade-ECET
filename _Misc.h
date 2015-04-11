@@ -100,6 +100,13 @@ void intro()
 	cout << "\n\n\n\n\n\t\t\t\tThe Matrix Machine";
 	system("Color 1C");
 	Sleep(500);
+
+
+
+
+
+
+
 	system("CLS");
 	system("COLOR 81");
 	cout << "\n\n\n\n\n\n\t\t\t\tThe Matrix Machine\n";
@@ -171,6 +178,17 @@ vector<int> MatrixMultiply(float key[3][3], vector<int> before)
 	}
 	return after;
 } //FUNCTION (MULTIPLY MATRICES) END
+
+
+
+void displaytxtfiles()
+{
+	system("dir *.txt /b");
+	return;
+
+}
+
+
 
 
 #endif

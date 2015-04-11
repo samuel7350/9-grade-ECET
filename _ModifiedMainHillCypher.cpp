@@ -11,9 +11,9 @@
 #include <math.h>
 #include <Windows.h>
 #include <direct.h>
-#include "Misc.h"
-#include "Encrypt.h"
-#include "Decrypt.h"
+#include "C:\Users\Sam\Documents\GitHub\9-grade-ECET\_Misc.h"
+#include "C:\Users\Sam\Documents\GitHub\9-grade-ECET\_Encrypt.h"
+#include "C:\Users\Sam\Documents\GitHub\9-grade-ECET\_Decrypt.h"
 #pragma comment(lib, "winmm.lib")
 #define SIZE 3
 using namespace std;
@@ -58,12 +58,13 @@ int main()
 	while (true)
 	{
 		cout << "Press CTRL + C at any time to exit the program.\n";
-		cout << "Would you like to Encrypt or Decrypt? \nE - Encrypt\nD - Decrypt\n\t\t\t\t\t";
+		cout << "Would you like to Encrypt or Decrypt? \nE - Encrypt\nD - Decrypt\n\n";
 		cin >> choose;
 		getline(cin, sht);		//Anything that was entered after the letter does not overflow into the next cin
 		//Instead goes into overflow
 		if (choose == 'e' || choose == 'E')	//If they chose to Encrypt
 		{
+			system("CLS");
 			Encrypt();			//Calls Encrypt
 			int result1 = MessageBox(HWND_DESKTOP, L"Would you Like to Decrypt?", L"Decrypt?", MB_YESNO);
 			switch (result1)
@@ -79,6 +80,7 @@ int main()
 		}
 		if (choose == 'd' || choose == 'D')	//If they chose to Decrypt
 		{
+			system("CLS");
 			Decrypt();			//Calls Decrypt
 			int result1 = MessageBox(HWND_DESKTOP, L"Would you Like to Encrypt?", L"Encrypt?", MB_YESNO);
 			switch (result1)

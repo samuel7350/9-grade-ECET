@@ -14,7 +14,8 @@
 #include <math.h>
 #include <Windows.h>
 #include <direct.h>
-#include "Misc.h"
+//#include "Misc.h"
+#include "C:\Users\Sam\Documents\GitHub\9-grade-ECET\_Misc.h"
 #include <sys/stat.h>
 #pragma comment(lib, "winmm.lib")
 #define SIZE 3
@@ -94,9 +95,9 @@ ifstream openfile()
 	}
 	cout << "\n";
 	ifstream EncodedM;
-	cout << "Please Enter the FileName of your Encoded Text: ";
 	while (true)
 	{
+		cout << "Please Enter the FileName of your Encoded Text: ";
 		getline(cin, file);
 		if (file.length() == 0)
 			getline(cin, file);
@@ -118,7 +119,7 @@ ifstream openfile()
 			system("CLS");
 			system("COLOR 30");
 			cout << "Here is a list of all the .txt files in the Directory.\n";
-			system("dir *.txt /a-d /b");
+			displaytxtfiles();
 			cout << "\n";
 			continue;
 		}
@@ -274,9 +275,13 @@ void Decrypt()
 	cout << "This is your message: \n";
 	answer = MatrixMultiply(inversekey, fromfile);		//array is multiplied with the encoded words
 	for (int i = 0; i < answer.size(); i++)
+	{
 		cout << static_cast<char>(answer[i]);		//answer is a vector of ints
+		Sleep(500);
+	}
 	//Cast while we output makes them their corresponding ASCII characters
 	cout << endl;
+	/*
 	int result1 = MessageBox(HWND_DESKTOP, L"DELETE ALL TRACES!!", L"", MB_YESNO);
 	switch (result1)
 	{
@@ -285,7 +290,8 @@ void Decrypt()
 			remove(file.c_str());
 		}
 	}
-	result1 = MessageBox(HWND_DESKTOP, L"Would You Like to Store This into a .txt File?", L"Text Files?", MB_YESNO);
+	*/
+	int result1 = MessageBox(HWND_DESKTOP, L"Would You Like to Store This into a .txt File?", L"Text Files?", MB_YESNO);
 	switch (result1)
 	{
 		case IDYES:
