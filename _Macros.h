@@ -1,5 +1,5 @@
-#ifndef MAIN
-#define MAIN
+#ifndef __MACRO__
+#define __MACRO__
 
 #include <iostream>
 #include <fstream>
@@ -21,6 +21,10 @@
 #pragma comment(lib, "winmm.lib")
 #define SIZE 3
 using namespace std;
+
+
+#define SHOW_FILES() system("dir *.txt /b /o:-D")
+
 
 
 #define MAIN() 	int main()\
@@ -159,7 +163,65 @@ vector<int> sizecheck(vector<int>);\
 vector<int> fetch(ifstream&);\
 void Encrypt();\
 void intro();\
-int checkvalid(string);
+int checkvalid(string);\
+\
+\
+\
+int main()\
+	{\
+	do{\
+	\
+	intro();			\
+	char choose;		\
+	while (true)\
+	{\
+		cout << "Press CTRL + C at any time to exit the program.\n";\
+		cout << "Would you like to Encrypt or Decrypt? \nE - Encrypt\nD - Decrypt\n\n";\
+		cin >> choose;\
+		getline(cin, sht);\
+		\
+		if (choose == 'e' || choose == 'E')\
+		{\
+			system("CLS");\
+			Encrypt();		\
+			int result1 = MessageBox(HWND_DESKTOP, L"Would you Like to Decrypt?", L"Decrypt?", MB_YESNO);\
+			switch (result1)\
+			{\
+				case IDYES:\
+				{\
+					system("CLS");\
+					Decrypt();		\
+					break;\
+				}\
+			}\
+			break;\
+		}\
+		if (choose == 'd' || choose == 'D')\
+		{\
+			system("CLS");\
+			Decrypt();		\
+			int result1 = MessageBox(HWND_DESKTOP, L"Would you Like to Encrypt?", L"Encrypt?", MB_YESNO);\
+			switch (result1)\
+			{\
+				case IDYES:\
+				{\
+					system("CLS");\
+					Encrypt();		\
+					break;\
+				}\
+			}\
+			break;\
+		}\
+		else\
+		{\
+			system("CLS");\
+			cout << "PLEASE SELECT A VALID OPTION!!\n";\
+			continue;\
+		}\
+	}\
+	cout << "\t\t\tThank You For Using this program!\n";\
+}while(0);\
+}\
 
 /*
 void randKey(float[SIZE][SIZE]);									//Creates Random Key
@@ -178,6 +240,33 @@ void Encrypt();														//Main Encrypt Function
 void intro();														//Introduction Screen
 int checkvalid(string);
 */
+
+
+
+
+
+
+
+#define FUNCTIONS_AND_MAIN()\
+void randKey(float[SIZE][SIZE]);\
+vector<int> Message();\
+float determinant(float[SIZE][SIZE]);\
+vector<float> inverse(float[SIZE][SIZE], int);\
+void outputkey(ofstream&);\
+ofstream createtxt();\
+ifstream openfile();\
+void Decrypt();\
+vector<float> getkey(ifstream&);\
+vector<int> MatrixMultiply(float[SIZE][SIZE], vector<int>);\
+vector<int> sizecheck(vector<int>);\
+vector<int> fetch(ifstream&);\
+void Encrypt();\
+void intro();\
+int checkvalid(string);
+
+
+
+
 
 
 #endif

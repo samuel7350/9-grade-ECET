@@ -18,7 +18,7 @@
 using namespace std;
 
 
-#define SHOW_FILES() system("dir *.txt /b /o:-D")
+
 
 
 
@@ -126,7 +126,7 @@ void intro()
 	for(int x=0; x<name.size(); x++)
 	{
 	cout << name.at(x);
-	Sleep(250);
+	Sleep(200);
 	}
 		cout << "\n";
 	Sleep(500);
@@ -136,7 +136,7 @@ void intro()
 	for(int x=0; x<name.size(); x++)
 	{
 	cout << name.at(x);
-	Sleep(250);
+	Sleep(200);
 	}
 		cout << "\n";
 	Sleep(500);
@@ -146,7 +146,7 @@ void intro()
 	for(int x=0; x<name.size(); x++)
 	{
 	cout << name.at(x);
-	Sleep(250);
+	Sleep(200);
 	}
 		cout << "\n";
 	Sleep(500);

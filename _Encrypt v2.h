@@ -16,9 +16,14 @@
 #include <direct.h>
 //#include "Misc.h"
 #include "C:\Users\Sam\Documents\GitHub\9-grade-ECET\_Misc.h"
+//#include "C:\Users\Sam\Documents\GitHub\9-grade-ECET\_Macros.h"
 #pragma comment(lib, "winmm.lib")
 #define SIZE 3
 using namespace std;
+
+
+#define SHOW_FILES() system("dir *.txt /b /o:-D")
+
 
 vector<int> sizecheck(vector<int> test)
 { //FUNCTION (SIZE CHECK) START
@@ -54,7 +59,7 @@ vector<int> Message()		//Function Definition
 	{
 	case IDYES:
 	{
-		displaytxtfiles();
+		SHOW_FILES();
 		int result2 = MessageBox(HWND_DESKTOP, L"Would you like to delete all these files?", L"DELETE", MB_YESNO);
 		switch (result2)
 		{

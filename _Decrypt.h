@@ -16,10 +16,13 @@
 #include <direct.h>
 //#include "Misc.h"
 #include "C:\Users\Sam\Documents\GitHub\9-grade-ECET\_Misc.h"
+//#include "C:\Users\Sam\Documents\GitHub\9-grade-ECET\_Macros.h"
 #include <sys/stat.h>
 #pragma comment(lib, "winmm.lib")
 #define SIZE 3
 using namespace std;
+
+#define SHOW_FILES() system("dir *.txt /b /o:-D")
 
 string file;
 float determinant(float key[SIZE][SIZE])	//Function Definition
@@ -119,7 +122,7 @@ ifstream openfile()
 			system("CLS");
 			system("COLOR 30");
 			cout << "Here is a list of all the .txt files in the Directory.\n";
-			displaytxtfiles();
+			SHOW_FILES();
 			cout << "\n";
 			continue;
 		}
@@ -277,7 +280,7 @@ void Decrypt()
 	for (int i = 0; i < answer.size(); i++)
 	{
 		cout << static_cast<char>(answer[i]);		//answer is a vector of ints
-		Sleep(500);
+		Sleep(200);
 	}
 	//Cast while we output makes them their corresponding ASCII characters
 	cout << endl;
