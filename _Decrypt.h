@@ -129,9 +129,11 @@ ifstream openfile()
 	}	
 	struct stat filestats;
 	stat(file.c_str(), &filestats);
-	printf("Last status change:       %s\n", ctime(&filestats.st_ctime));
-    printf("Last file access:         %s\n", ctime(&filestats.st_atime));
-    printf("Last file modification:   %s\n", ctime(&filestats.st_mtime));
+	cout << "Last status change:       " << ctime(&filestats.st_ctime);
+    	cout << "Last file access:         " << ctime(&filestats.st_atime);
+    	cout << "Last file modification:   " << ctime(&filestats.st_mtime);
+	size_t filesize = filestats.st_size;
+	cout << "File Size:                " << filesize << " Bytes\n"; 
 	system("PAUSE");
 	return EncodedM;
 } //FUNCTION (OPEN FILE FOR READ) END
