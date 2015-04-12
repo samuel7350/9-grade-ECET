@@ -53,7 +53,7 @@ ifstream openfile()
 { //FUNCTION (OPEN FILE FOR READ) START
 	while(true)
 	{
-		cout << "Pick a directory (Ex. C:\\Users\\Me\\Cplusplus\\ <--- Dont forget last \\\nPress Enter to Continue with the Same Directory\n----> ";
+		cout << "Pick a directory (Ex. C:\\Users\\Me\\Cplusplus) <--- Dont add the last \\\nPress Enter to Continue with the Same Directory\n----> ";
 		string directory;
 		getline(cin, directory);
 		struct stat dirtest;
