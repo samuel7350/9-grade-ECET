@@ -13,7 +13,7 @@ by (un)commenting
 cd "C:\Whatever Folder it's in
  msbuild.exe Cryptography.vcxproj
  cl.exe
- cl Encrypt.cpp
+ cl ModifiedHillCypher.cpp
 
 echo DONE!!
 pause
