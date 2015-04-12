@@ -126,9 +126,9 @@ vector<int> Message()		//Function Definition
 			{
 				case IDYES:
 				{
-					cout << "Enter the Specified Directory (Ex. C:\\Users\\Me\\)<---Please dont forget last \\\n----> ";
+					cout << "Enter the Specified Directory (Ex. C:\\Users\\Me)<---Please dont add the last \\\n----> ";
 					getline(cin, directory);
-					filename = directory + filename;
+					filename = directory + "\\" + filename;
 					break;
 				}
 
